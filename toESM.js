@@ -32,7 +32,7 @@ async function convertDirectory(src) {
   for await (const entry of Deno.readDir(src)) {
     const path = join(src, entry.name);
 
-    if (entry.name.endsWith("d.ts") || entry.name.endsWith("d.mjs")) {
+    if (entry.name.endsWith("d.ts") || entry.name.endsWith(".mjs")) {
       await Deno.remove(path);
       continue;
     }
@@ -49,8 +49,10 @@ async function convertDirectory(src) {
 }
 
 function convert(code) {
-  return code
+  code = code
+    //Remove "use strict" because in ES5 modules is always strict
     .replace("'use strict'", "")
+    //Replace exports
     .replace(/(^|\n)module.exports\s*=\s*\S/g, (str) => {
       const prefix = extractPrefix(str);
       const postfix = str.slice(-1);
@@ -61,6 +63,7 @@ function convert(code) {
 
       return `${prefix}export default ${postfix}`;
     })
+    //Replace imports
     .replace(
       /(^|\n)(let|const|var)\s+({[^}]+}|\S+)\s*=\s*require\([^)]+\)/g,
       (str) => {
@@ -86,6 +89,14 @@ function convert(code) {
       },
     )
     .trimStart();
+    
+  //Replace node global objects by Deno equivalents
+  if (code.includes("Buffer.")) {
+    code = `import Buffer from "./deps.js";\n${code}`;
+  }
+  code = code.replace(/process\.env\./g, "Deno.env.");
+
+  return code;
 }
 
 function extractPrefix(str) {

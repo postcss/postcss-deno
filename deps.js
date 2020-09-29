@@ -9,7 +9,8 @@ import {
   relative,
   sep,
 } from "https://deno.land/std@0.71.0/node/path.ts";
-// import * as url from "https://deno.land/std@0.71.0/node/url.ts";
+import Buffer from "https://deno.land/std@0.71.0/node/buffer.ts";
+import { nanoid } from "https://dev.jspm.io/nanoid/non-secure";
 import * as mozilla from "https://dev.jspm.io/source-map";
 import colorette from "https://dev.jspm.io/colorette";
 const { cyan, gray, green, yellow, magenta } = colorette;
@@ -31,4 +32,6 @@ export {
   colorette,
   lineColum,
   mozilla,
+  nanoid,
+  Buffer,
 };
