@@ -31,25 +31,26 @@ await convert(
   "test",
   "test_deps.js",
   [
+    "browser.test.ts", // error: Uncaught SyntaxError: The requested module './deps.js' does not provide an export named 'options'
+    "css-syntax-error.test.ts", // Fail test (https://github.com/allain/expect/issues/12)
+    "errors.ts",
     "integration.js",
+    "map.test.ts", // No support for JEST afterEach()
+    "parse.test.ts", // error: Uncaught SyntaxError: The requested module './deps.js' does not provide an export named 'jsonify'
+    "postcss.test.ts", // No support for JEST afterEach()
+    "previous-map.test.ts", // No support for JEST afterEach()
+    "processor.test.ts", // No support for JEST afterEach()
+    "result.test.ts",
+    "stringifier.test.js", // No support for JEST beforeAll()
+    "stringify.test.ts", // error: Uncaught SyntaxError: The requested module './deps.js' does not provide an export named 'eachTest'
+    "types.ts",
     "version.js",
-    "browser.test.ts",
-    "parse.test.ts",
-    "stringify.test.ts",
-    "map.test.ts",
-    "postcss.test.ts",
-    "previous-map.test.ts",
-    "processor.test.ts",
-    "stringifier.test.js",
+    "visitor.test.ts", // Fail tests (https://github.com/allain/expect/issues/12)
   ],
   (file, code) => {
-    code = code.replace(
-      /\n\s*it\((["'`])/g,
-      (str, quote) => `\nDeno.test(${quote}`,
-    );
     code = code.replace("../lib/postcss.js", "../lib/mod.js");
-    code =
-      `import { expect } from "https://deno.land/x/expect/mod.ts";\n${code}`;
+    code = code.replace("jest.fn(", "mock.fn(");
+    code = `import { expect, it, mock } from "./deps.js";\n${code}`;
 
     return [file, code];
   },
