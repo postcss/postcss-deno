@@ -40,7 +40,6 @@ await convert(
     "postcss.test.ts", // No support for JEST afterEach()
     "previous-map.test.ts", // No support for JEST afterEach()
     "processor.test.ts", // No support for JEST afterEach()
-    "result.test.ts",
     "stringifier.test.js", // No support for JEST beforeAll()
     "stringify.test.ts", // error: Uncaught SyntaxError: The requested module './deps.js' does not provide an export named 'eachTest'
     "types.ts",
