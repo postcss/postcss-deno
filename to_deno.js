@@ -80,17 +80,19 @@ async function convertDirectory(src, ignored, onConvert) {
       continue;
     }
 
+    if (path.endsWith(".d.ts")) {
+      await Deno.remove(path);
+      continue;
+    }
+
     if (entry.isDirectory) {
       await convertDirectory(path);
       continue;
     }
 
-    if (path.endsWith(".d.ts")) {
-      continue;
-    }
     let text = await Deno.readTextFile(path);
 
-    //Transpile ts to javascript
+    //Transpile .ts => .js
     if (path.endsWith(".ts")) {
       const result = await Deno.transpileOnly({
         [path]: text,
