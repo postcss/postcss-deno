@@ -1,6 +1,6 @@
 import { expect, it, mock } from "./deps.js";
 import { resolve } from "./deps.js";
-import { Warning, parse, decl } from "../lib/mod.js";
+import { decl, parse, Warning } from "../lib/mod.js";
 it("outputs simple warning", () => {
   let warning = new Warning("text");
   expect(warning.toString()).toEqual("text");

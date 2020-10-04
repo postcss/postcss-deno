@@ -2,11 +2,11 @@ import { expect, it, mock } from "./deps.js";
 import { resolve } from "./deps.js";
 import postcss, {
   AtRule,
-  Root,
-  Rule,
   CssSyntaxError,
   Declaration,
   parse,
+  Root,
+  Rule,
 } from "../lib/mod.js";
 function stringify(node, builder) {
   if (node.type === "rule") {

@@ -5,6 +5,7 @@ await convert({
   from: "postcss/lib",
   to: "lib",
   depsFile: "deps.js",
+  transpile: true,
   onConvert(file, code) {
     code = code.replace(", options: colorette", "");
     code = code.replace("if (color == null) color = colorette.enabled");
@@ -22,6 +23,7 @@ await convert({
   from: "postcss/test",
   to: "test",
   depsFile: "test_deps.js",
+  transpile: true,
   modules: {
     "..": "../lib/mod.js"
   },
