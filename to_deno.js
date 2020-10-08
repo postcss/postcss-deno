@@ -1,4 +1,4 @@
-import { convert } from "https://raw.githubusercontent.com/oscarotero/nodedeno/main/mod.js";
+import { convert } from "https://deno.land/x/nodedeno/mod.js";
 
 //Convert the code
 await convert({
@@ -8,7 +8,8 @@ await convert({
   transpile: true,
   onConvert(file, code) {
     code = code.replace(", options: colorette", "");
-    code = code.replace("if (color == null) color = colorette.enabled");
+    code = code.replace("if (color == null) color = colorette.enabled", "");
+    code = code.replace(", options as colorette", "");
 
     if (file === "lib/postcss.mjs") {
       file = "lib/mod.js";
