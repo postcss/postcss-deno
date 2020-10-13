@@ -12,7 +12,8 @@ await convert({
     code = code.replace(", options as colorette", "");
 
     if (file === "deno/lib/postcss.mjs") {
-      file = "deno/lib/mod.js";
+      file = "deno/mod.js";
+      code = code.replace(`"./postcss.js"`, `"./lib/postcss.js"`)
     }
 
     return [file, code];
@@ -26,7 +27,7 @@ await convert({
   depsFile: "test_deps.js",
   transpile: true,
   modules: {
-    "..": "../lib/mod.js"
+    "..": "../mod.js"
   },
   ignoredFiles: [
     "browser.test.ts", // error: Uncaught SyntaxError: The requested module './deps.js' does not provide an export named 'options'
@@ -45,7 +46,7 @@ await convert({
     "visitor.test.ts", // Fail tests (https://github.com/allain/expect/issues/12)
   ],
   onConvert(file, code) {
-    code = code.replace("../lib/postcss.js", "../lib/mod.js");
+    code = code.replace("../lib/postcss.js", "../mod.js");
     code = code.replace("jest.fn(", "mock.fn(");
     code = `import { expect, it, mock } from "./deps.js";\n${code}`;
 

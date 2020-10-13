@@ -1,6 +1,6 @@
 import { expect, it, mock } from "./deps.js";
 import tokenizer from "../lib/tokenize.js";
-import { Input } from "../lib/mod.js";
+import { Input } from "../mod.js";
 
 function tokenize(css, opts) {
   let processor = tokenizer(new Input(css), opts);

@@ -1,5 +1,5 @@
 import { expect, it, mock } from "./deps.js";
-import { parse, Result } from "../lib/mod.js";
+import { parse, Result } from "../mod.js";
 function privateMethods(obj) {
   return obj;
 }

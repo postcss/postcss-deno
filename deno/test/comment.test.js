@@ -1,5 +1,5 @@
 import { expect, it, mock } from "./deps.js";
-import { Comment, parse } from "../lib/mod.js";
+import { Comment, parse } from "../mod.js";
 it("toString() inserts default spaces", () => {
   let comment = new Comment({ text: "hi" });
   expect(comment.toString()).toEqual("/* hi */");

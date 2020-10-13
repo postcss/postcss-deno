@@ -1,5 +1,5 @@
 import { expect, it, mock } from "./deps.js";
-import { list } from "../lib/mod.js";
+import { list } from "../mod.js";
 it("space() splits list by spaces", () => {
   expect(list.space("a b")).toEqual(["a", "b"]);
 });

@@ -7,7 +7,7 @@ import postcss, {
   parse,
   Root,
   Rule,
-} from "../lib/mod.js";
+} from "../mod.js";
 function stringify(node, builder) {
   if (node.type === "rule") {
     return builder(node.selector);

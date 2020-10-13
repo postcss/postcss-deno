@@ -11,5 +11,10 @@ deno run --unstable --allow-write --allow-read to_deno.js
 # Autoformat the code
 deno fmt deno
 
+# Copy md files
+cp postcss/README.md deno/
+cp postcss/CHANGELOG.md deno/
+cp postcss/LICENSE deno/
+
 # Run the tests
 deno test --unstable --allow-read deno/test/*

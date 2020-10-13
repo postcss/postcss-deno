@@ -1,5 +1,5 @@
 import { expect, it, mock } from "./deps.js";
-import { Declaration, parse, Root, Rule } from "../lib/mod.js";
+import { Declaration, parse, Root, Rule } from "../mod.js";
 let example = "a { a: 1; b: 2 }" +
   "/* a */" +
   "@keyframes anim {" +

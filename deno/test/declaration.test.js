@@ -1,5 +1,5 @@
 import { expect, it, mock } from "./deps.js";
-import { Declaration, parse, Rule } from "../lib/mod.js";
+import { Declaration, parse, Rule } from "../mod.js";
 it("initializes with properties", () => {
   let decl = new Declaration({ prop: "color", value: "black" });
   expect(decl.prop).toEqual("color");

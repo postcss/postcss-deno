@@ -1,5 +1,5 @@
 import { expect, it, mock } from "./deps.js";
-import { parse, Rule } from "../lib/mod.js";
+import { parse, Rule } from "../mod.js";
 it("initializes with properties", () => {
   let rule = new Rule({ selector: "a" });
   expect(rule.selector).toEqual("a");

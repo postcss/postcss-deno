@@ -1,5 +1,5 @@
 import { expect, it, mock } from "./deps.js";
-import { AtRule, parse } from "../lib/mod.js";
+import { AtRule, parse } from "../mod.js";
 it("initializes with properties", () => {
   let rule = new AtRule({ name: "encoding", params: '"utf-8"' });
   expect(rule.name).toEqual("encoding");
