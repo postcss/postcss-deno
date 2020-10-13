@@ -3,7 +3,7 @@ import { convert } from "https://deno.land/x/nodedeno/mod.js";
 //Convert the code
 await convert({
   from: "postcss/lib",
-  to: "lib",
+  to: "deno/lib",
   depsFile: "deps.js",
   transpile: true,
   onConvert(file, code) {
@@ -11,8 +11,8 @@ await convert({
     code = code.replace("if (color == null) color = colorette.enabled", "");
     code = code.replace(", options as colorette", "");
 
-    if (file === "lib/postcss.mjs") {
-      file = "lib/mod.js";
+    if (file === "deno/lib/postcss.mjs") {
+      file = "deno/lib/mod.js";
     }
 
     return [file, code];
@@ -22,7 +22,7 @@ await convert({
 //Convert the tests
 await convert({
   from: "postcss/test",
-  to: "test",
+  to: "deno/test",
   depsFile: "test_deps.js",
   transpile: true,
   modules: {

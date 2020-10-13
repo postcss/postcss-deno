@@ -1,6 +1,5 @@
 # Clean old files
-rm -rf lib
-rm -rf test
+rm -rf deno
 rm -rf postcss
 
 # Clone the repo
@@ -10,8 +9,7 @@ git clone --depth 1 --branch master https://github.com/postcss/postcss.git
 deno run --unstable --allow-write --allow-read to_deno.js 
 
 # Autoformat the code
-deno fmt lib
-deno fmt test
+deno fmt deno
 
 # Run the tests
-deno test --unstable --allow-read test/*
+deno test --unstable --allow-read deno/test/*
