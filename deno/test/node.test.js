@@ -15,14 +15,18 @@ function stringify(node, builder) {
 }
 it("error() generates custom error", () => {
   let file = resolve("a.css");
-  let css = parse("a{}", { from: file });
+  let css = parse("a{}", {
+    from: file,
+  });
   let a = css.first;
   let error = a.error("Test");
   expect(error instanceof CssSyntaxError).toBe(true);
   expect(error.message).toEqual(file + ":1:1: Test");
 });
 it("error() generates custom error for nodes without source", () => {
-  let rule = new Rule({ selector: "a" });
+  let rule = new Rule({
+    selector: "a",
+  });
   let error = rule.error("Test");
   expect(error.message).toEqual("<css input>: Test");
 });
@@ -30,7 +34,9 @@ it("error() highlights index", () => {
   let root = parse("a { b: c }");
   let a = root.first;
   let b = a.first;
-  let error = b.error("Bad semicolon", { index: 1 });
+  let error = b.error("Bad semicolon", {
+    index: 1,
+  });
   expect(error.showSourceCode(false)).toEqual(
     "> 1 | a { b: c }\n" + "    |      ^",
   );
@@ -39,7 +45,9 @@ it("error() highlights word", () => {
   let root = parse("a { color: x red }");
   let a = root.first;
   let color = a.first;
-  let error = color.error("Wrong color", { word: "x" });
+  let error = color.error("Wrong color", {
+    word: "x",
+  });
   expect(error.showSourceCode(false)).toEqual(
     "> 1 | a { color: x red }\n" + "    |            ^",
   );
@@ -48,7 +56,9 @@ it("error() highlights word in multiline string", () => {
   let root = parse("a { color: red\n           x }");
   let a = root.first;
   let color = a.first;
-  let error = color.error("Wrong color", { word: "x" });
+  let error = color.error("Wrong color", {
+    word: "x",
+  });
   expect(error.showSourceCode(false)).toEqual(
     "  1 | a { color: red\n" + "> 2 |            x }\n" + "    |            ^",
   );
@@ -61,52 +71,91 @@ it("warn() attaches a warning to the result object", async () => {
       warning = css.first?.warn(result, "FIRST!");
     },
   };
-  let result = await postcss([warner]).process("a{}", { from: undefined });
+  let result = await postcss([
+    warner,
+  ]).process("a{}", {
+    from: undefined,
+  });
   expect(warning.type).toEqual("warning");
   expect(warning.text).toEqual("FIRST!");
   expect(warning.plugin).toEqual("warner");
-  expect(result.warnings()).toEqual([warning]);
+  expect(result.warnings()).toEqual([
+    warning,
+  ]);
 });
 it("warn() accepts options", () => {
   let warner = (css, result) => {
-    css.first?.warn(result, "FIRST!", { index: 1 });
+    css.first?.warn(result, "FIRST!", {
+      index: 1,
+    });
   };
-  let result = postcss([warner]).process("a{}");
+  let result = postcss([
+    warner,
+  ]).process("a{}");
   expect(result.warnings()).toHaveLength(1);
   let warning = result.warnings()[0];
   expect(warning.index).toEqual(1);
 });
 it("remove() removes node from parent", () => {
-  let rule = new Rule({ selector: "a" });
-  let decl = new Declaration({ prop: "color", value: "black" });
+  let rule = new Rule({
+    selector: "a",
+  });
+  let decl = new Declaration({
+    prop: "color",
+    value: "black",
+  });
   rule.append(decl);
   decl.remove();
   expect(rule.nodes).toHaveLength(0);
   expect(decl.parent).not.toBeDefined();
 });
 it("replaceWith() inserts new node", () => {
-  let rule = new Rule({ selector: "a" });
-  rule.append({ prop: "color", value: "black" });
-  rule.append({ prop: "width", value: "1px" });
-  rule.append({ prop: "height", value: "1px" });
-  let node = new Declaration({ prop: "min-width", value: "1px" });
+  let rule = new Rule({
+    selector: "a",
+  });
+  rule.append({
+    prop: "color",
+    value: "black",
+  });
+  rule.append({
+    prop: "width",
+    value: "1px",
+  });
+  rule.append({
+    prop: "height",
+    value: "1px",
+  });
+  let node = new Declaration({
+    prop: "min-width",
+    value: "1px",
+  });
   let width = rule.nodes[1];
   let result = width.replaceWith(node);
   expect(result).toEqual(width);
   expect(rule.toString()).toEqual(
-    "a {\n" +
-      "    color: black;\n" +
-      "    min-width: 1px;\n" +
-      "    height: 1px\n" +
-      "}",
+    "a {\n" + "    color: black;\n" + "    min-width: 1px;\n" +
+      "    height: 1px\n" + "}",
   );
 });
 it("replaceWith() inserts new root", () => {
   let root = new Root();
-  root.append(new AtRule({ name: "import", params: '"a.css"' }));
+  root.append(
+    new AtRule({
+      name: "import",
+      params: '\"a.css\"',
+    }),
+  );
   let a = new Root();
-  a.append(new Rule({ selector: "a" }));
-  a.append(new Rule({ selector: "b" }));
+  a.append(
+    new Rule({
+      selector: "a",
+    }),
+  );
+  a.append(
+    new Rule({
+      selector: "b",
+    }),
+  );
   root.first?.replaceWith(a);
   expect(root.toString()).toEqual("a {}\nb {}");
 });
@@ -114,7 +163,10 @@ it("replaceWith() replaces node", () => {
   let css = parse("a{one:1;two:2}");
   let a = css.first;
   let one = a.first;
-  let result = one.replaceWith({ prop: "fix", value: "fixed" });
+  let result = one.replaceWith({
+    prop: "fix",
+    value: "fixed",
+  });
   expect(result.prop).toEqual("one");
   expect(result.parent).not.toBeDefined();
   expect(css.toString()).toEqual("a{fix:fixed;two:2}");
@@ -123,30 +175,54 @@ it("replaceWith() can include itself", () => {
   let css = parse("a{one:1;two:2}");
   let a = css.first;
   let one = a.first;
-  let beforeDecl = { prop: "fix1", value: "fixedOne" };
-  let afterDecl = { prop: "fix2", value: "fixedTwo" };
+  let beforeDecl = {
+    prop: "fix1",
+    value: "fixedOne",
+  };
+  let afterDecl = {
+    prop: "fix2",
+    value: "fixedTwo",
+  };
   one.replaceWith(beforeDecl, one, afterDecl);
   expect(css.toString()).toEqual("a{fix1:fixedOne;one:1;fix2:fixedTwo;two:2}");
 });
 it("toString() accepts custom stringifier", () => {
-  expect(new Rule({ selector: "a" }).toString(stringify)).toEqual("a");
+  expect(new Rule({
+    selector: "a",
+  }).toString(stringify)).toEqual("a");
 });
 it("toString() accepts custom syntax", () => {
-  expect(new Rule({ selector: "a" }).toString({ stringify })).toEqual("a");
+  expect(new Rule({
+    selector: "a",
+  }).toString({
+    stringify,
+  })).toEqual("a");
 });
 it("clone() clones nodes", () => {
-  let rule = new Rule({ selector: "a" });
-  rule.append({ prop: "color", value: "/**/black" });
+  let rule = new Rule({
+    selector: "a",
+  });
+  rule.append({
+    prop: "color",
+    value: "/**/black",
+  });
   let clone = rule.clone();
   expect(clone.parent).not.toBeDefined();
   expect(rule.first?.parent).toBe(rule);
   expect(clone.first?.parent).toBe(clone);
-  clone.append({ prop: "z-index", value: "1" });
+  clone.append({
+    prop: "z-index",
+    value: "1",
+  });
   expect(rule.nodes).toHaveLength(1);
 });
 it("clone() overrides properties", () => {
-  let rule = new Rule({ selector: "a" });
-  let clone = rule.clone({ selector: "b" });
+  let rule = new Rule({
+    selector: "a",
+  });
+  let clone = rule.clone({
+    selector: "b",
+  });
   expect(clone.selector).toEqual("b");
 });
 it("clone() keeps code style", () => {
@@ -158,35 +234,87 @@ it("clone() works with null in raws", () => {
     prop: "color",
     value: "black",
 
-    raws: { value: null },
+    raws: {
+      value: null,
+    },
   });
   let clone = decl.clone();
-  expect(Object.keys(clone.raws)).toEqual(["value"]);
+  expect(Object.keys(clone.raws)).toEqual([
+    "value",
+  ]);
 });
 it("cloneBefore() clones and insert before current node", () => {
-  let rule = new Rule({ selector: "a", raws: { after: "" } });
-  rule.append({ prop: "z-index", value: "1", raws: { before: "" } });
-  let result = rule.first?.cloneBefore({ value: "2" });
+  let rule = new Rule({
+    selector: "a",
+    raws: {
+      after: "",
+    },
+  });
+  rule.append({
+    prop: "z-index",
+    value: "1",
+    raws: {
+      before: "",
+    },
+  });
+  let result = rule.first?.cloneBefore({
+    value: "2",
+  });
   expect(result).toBe(rule.first);
   expect(rule.toString()).toEqual("a {z-index: 2;z-index: 1}");
 });
 it("cloneAfter() clones and insert after current node", () => {
-  let rule = new Rule({ selector: "a", raws: { after: "" } });
-  rule.append({ prop: "z-index", value: "1", raws: { before: "" } });
-  let result = rule.first?.cloneAfter({ value: "2" });
+  let rule = new Rule({
+    selector: "a",
+    raws: {
+      after: "",
+    },
+  });
+  rule.append({
+    prop: "z-index",
+    value: "1",
+    raws: {
+      before: "",
+    },
+  });
+  let result = rule.first?.cloneAfter({
+    value: "2",
+  });
   expect(result).toBe(rule.last);
   expect(rule.toString()).toEqual("a {z-index: 1;z-index: 2}");
 });
 it("before() insert before current node", () => {
-  let rule = new Rule({ selector: "a", raws: { after: "" } });
-  rule.append({ prop: "z-index", value: "1", raws: { before: "" } });
+  let rule = new Rule({
+    selector: "a",
+    raws: {
+      after: "",
+    },
+  });
+  rule.append({
+    prop: "z-index",
+    value: "1",
+    raws: {
+      before: "",
+    },
+  });
   let result = rule.first?.before("color: black");
   expect(result).toBe(rule.last);
   expect(rule.toString()).toEqual("a {color: black;z-index: 1}");
 });
 it("after() insert after current node", () => {
-  let rule = new Rule({ selector: "a", raws: { after: "" } });
-  rule.append({ prop: "z-index", value: "1", raws: { before: "" } });
+  let rule = new Rule({
+    selector: "a",
+    raws: {
+      after: "",
+    },
+  });
+  rule.append({
+    prop: "z-index",
+    value: "1",
+    raws: {
+      before: "",
+    },
+  });
   let result = rule.first?.after("color: black");
   expect(result).toBe(rule.first);
   expect(rule.toString()).toEqual("a {z-index: 1;color: black}");
@@ -212,20 +340,27 @@ it("prev() returns undefined on no parent", () => {
   expect(css.prev()).not.toBeDefined();
 });
 it("toJSON() cleans parents inside", () => {
-  let rule = new Rule({ selector: "a" });
-  rule.append({ prop: "color", value: "b" });
+  let rule = new Rule({
+    selector: "a",
+  });
+  rule.append({
+    prop: "color",
+    value: "b",
+  });
   let json = rule.toJSON();
   expect(json.parent).not.toBeDefined();
   expect(json.nodes[0].parent).not.toBeDefined();
   expect(JSON.stringify(rule)).toEqual(
-    '{"raws":{},"selector":"a","type":"rule","nodes":[' +
-      '{"raws":{},"prop":"color","value":"b","type":"decl"}' +
+    '{\"raws\":{},\"selector\":\"a\",\"type\":\"rule\",\"nodes\":[' +
+      '{\"raws\":{},\"prop\":\"color\",\"value\":\"b\",\"type\":\"decl\"}' +
       "]}",
   );
 });
 it("toJSON() converts custom properties", () => {
   let root = new Root();
-  root._cache = [1];
+  root._cache = [
+    1,
+  ];
   root._hack = {
     toJSON() {
       return "hack";
@@ -236,11 +371,15 @@ it("toJSON() converts custom properties", () => {
     nodes: [],
     raws: {},
     _hack: "hack",
-    _cache: [1],
+    _cache: [
+      1,
+    ],
   });
 });
 it("raw() has shortcut to stringifier", () => {
-  let rule = new Rule({ selector: "a" });
+  let rule = new Rule({
+    selector: "a",
+  });
   expect(rule.raw("before")).toEqual("");
 });
 it("root() returns root", () => {
@@ -251,12 +390,19 @@ it("root() returns root", () => {
   expect(color.root()).toBe(css);
 });
 it("root() returns parent of parents", () => {
-  let rule = new Rule({ selector: "a" });
-  rule.append({ prop: "color", value: "black" });
+  let rule = new Rule({
+    selector: "a",
+  });
+  rule.append({
+    prop: "color",
+    value: "black",
+  });
   expect(rule.first?.root()).toBe(rule);
 });
 it("root() returns self on root", () => {
-  let rule = new Rule({ selector: "a" });
+  let rule = new Rule({
+    selector: "a",
+  });
   expect(rule.root()).toBe(rule);
 });
 it("cleanRaws() cleans style recursivelly", () => {
@@ -293,17 +439,26 @@ it("positionInside() returns position when node starts mid-line", () => {
   let css = parse("a {  one: X  }");
   let a = css.first;
   let one = a.first;
-  expect(one.positionInside(6)).toEqual({ line: 1, column: 12 });
+  expect(one.positionInside(6)).toEqual({
+    line: 1,
+    column: 12,
+  });
 });
 it("positionInside() returns position when before contains newline", () => {
   let css = parse("a {\n  one: X}");
   let a = css.first;
   let one = a.first;
-  expect(one.positionInside(6)).toEqual({ line: 2, column: 9 });
+  expect(one.positionInside(6)).toEqual({
+    line: 2,
+    column: 9,
+  });
 });
 it("positionInside() returns position when node contains newlines", () => {
   let css = parse("a {\n\tone: 1\n\t\tX\n3}");
   let a = css.first;
   let one = a.first;
-  expect(one.positionInside(10)).toEqual({ line: 3, column: 4 });
+  expect(one.positionInside(10)).toEqual({
+    line: 3,
+    column: 4,
+  });
 });

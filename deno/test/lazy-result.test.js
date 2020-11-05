@@ -24,12 +24,20 @@ it("has map only if necessary", () => {
   expect(result1.map).not.toBeDefined();
   let result2 = new LazyResult(processor, "", {});
   expect(result2.map).not.toBeDefined();
-  let result3 = new LazyResult(processor, "", { map: { inline: false } });
+  let result3 = new LazyResult(processor, "", {
+    map: {
+      inline: false,
+    },
+  });
   expect(result3.map instanceof mozilla.SourceMapGenerator).toBe(true);
 });
 it("contains options", () => {
-  let result = new LazyResult(processor, "a {}", { to: "a.css" });
-  expect(result.opts).toEqual({ to: "a.css" });
+  let result = new LazyResult(processor, "a {}", {
+    to: "a.css",
+  });
+  expect(result.opts).toEqual({
+    to: "a.css",
+  });
 });
 it("contains warnings", () => {
   let result = new LazyResult(processor, "a {}", {});
@@ -41,7 +49,7 @@ it("contains messages", () => {
 });
 it("executes on finally callback", () => {
   let mockCallback = mock.fn();
-  return new LazyResult(processor, "a {}", {})
-    .finally(mockCallback)
-    .then(() => expect(mockCallback).toHaveBeenCalledTimes(1));
+  return new LazyResult(processor, "a {}", {}).finally(mockCallback).then(() =>
+    expect(mockCallback).toHaveBeenCalledTimes(1)
+  );
 });

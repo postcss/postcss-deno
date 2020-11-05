@@ -5,17 +5,25 @@ function privateMethods(obj) {
 }
 it("prepend() fixes spaces on insert before first", () => {
   let css = parse("a {} b {}");
-  css.prepend({ selector: "em" });
+  css.prepend({
+    selector: "em",
+  });
   expect(css.toString()).toEqual("em {} a {} b {}");
 });
 it("prepend() fixes spaces on multiple inserts before first", () => {
   let css = parse("a {} b {}");
-  css.prepend({ selector: "em" }, { selector: "strong" });
+  css.prepend({
+    selector: "em",
+  }, {
+    selector: "strong",
+  });
   expect(css.toString()).toEqual("em {} strong {} a {} b {}");
 });
 it("prepend() uses default spaces on only first", () => {
   let css = parse("a {}");
-  css.prepend({ selector: "em" });
+  css.prepend({
+    selector: "em",
+  });
   expect(css.toString()).toEqual("em {}\na {}");
 });
 it("append() sets new line between rules in multiline files", () => {
@@ -25,17 +33,19 @@ it("append() sets new line between rules in multiline files", () => {
 });
 it("insertAfter() does not use before of first rule", () => {
   let css = parse("a{} b{}");
-  css.insertAfter(0, { selector: ".a" });
-  css.insertAfter(2, { selector: ".b" });
+  css.insertAfter(0, {
+    selector: ".a",
+  });
+  css.insertAfter(2, {
+    selector: ".b",
+  });
   expect(css.nodes[1].raws.before).not.toBeDefined();
   expect(css.nodes[3].raws.before).toEqual(" ");
   expect(css.toString()).toEqual("a{} .a{} b{} .b{}");
 });
 it("fixes spaces on removing first rule", () => {
   let css = parse("a{}\nb{}\n");
-  if (!css.first) {
-    throw new Error("No nodes were parsed");
-  }
+  if (!css.first) throw new Error("No nodes were parsed");
   css.first.remove();
   expect(css.toString()).toEqual("b{}\n");
 });
@@ -50,7 +60,9 @@ it("keeps spaces on moving root", () => {
 });
 it("generates result with map", () => {
   let root = parse("a {}");
-  let result = root.toResult({ map: true });
+  let result = root.toResult({
+    map: true,
+  });
   expect(result instanceof Result).toBe(true);
   expect(result.css).toMatch(/a {}\n\/\*# sourceMappingURL=/);
 });

@@ -1,10 +1,13 @@
 import { expect, it, mock } from "./deps.js";
 import { AtRule, parse } from "../mod.js";
 it("initializes with properties", () => {
-  let rule = new AtRule({ name: "encoding", params: '"utf-8"' });
+  let rule = new AtRule({
+    name: "encoding",
+    params: '\"utf-8\"',
+  });
   expect(rule.name).toEqual("encoding");
-  expect(rule.params).toEqual('"utf-8"');
-  expect(rule.toString()).toEqual('@encoding "utf-8"');
+  expect(rule.params).toEqual('\"utf-8\"');
+  expect(rule.toString()).toEqual('@encoding \"utf-8\"');
 });
 it("does not fall on childless at-rule", () => {
   let rule = new AtRule();
@@ -23,12 +26,20 @@ it("creates nodes property on append()", () => {
   expect(rule.nodes).toHaveLength(1);
 });
 it("inserts default spaces", () => {
-  let rule = new AtRule({ name: "page", params: 1, nodes: [] });
+  let rule = new AtRule({
+    name: "page",
+    params: 1,
+    nodes: [],
+  });
   expect(rule.toString()).toEqual("@page 1 {}");
 });
 it("clone spaces from another at-rule", () => {
   let root = parse("@page{}a{}");
-  let rule = new AtRule({ name: "page", params: 1, nodes: [] });
+  let rule = new AtRule({
+    name: "page",
+    params: 1,
+    nodes: [],
+  });
   root.append(rule);
   expect(rule.toString()).toEqual("@page 1{}");
 });
