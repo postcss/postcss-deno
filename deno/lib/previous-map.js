@@ -1,4 +1,3 @@
-import { Buffer } from "./deps.js";
 import { existsSync, readFileSync } from "./deps.js";
 import { dirname, join } from "./deps.js";
 import { mozilla } from "./deps.js";
@@ -139,3 +138,5 @@ class PreviousMap {
 }
 
 export default PreviousMap;
+
+PreviousMap.default = PreviousMap;

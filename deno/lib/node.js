@@ -286,3 +286,5 @@ class Node {
 }
 
 export default Node;
+
+Node.default = Node;

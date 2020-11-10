@@ -2,7 +2,6 @@ import { fileURLToPath, pathToFileURL } from "./deps.js";
 import { isAbsolute, resolve } from "./deps.js";
 import { nanoid } from "./deps.js";
 import { lineColumn } from "./deps.js";
-
 import terminalHighlight from "./terminal-highlight.js";
 import CssSyntaxError from "./css-syntax-error.js";
 import PreviousMap from "./previous-map.js";
@@ -140,6 +139,8 @@ class Input {
 }
 
 export default Input;
+
+Input.default = Input;
 
 if (terminalHighlight && terminalHighlight.registerInput) {
   terminalHighlight.registerInput(Input);

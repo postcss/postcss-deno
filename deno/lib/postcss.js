@@ -83,3 +83,5 @@ postcss.Node = Node;
 LazyResult.registerPostcss(postcss);
 
 export default postcss;
+
+postcss.default = postcss;

@@ -1,5 +1,4 @@
 import { bold, gray, red } from "./deps.js";
-
 import terminalHighlight from "./terminal-highlight.js";
 
 class CssSyntaxError extends Error {
@@ -86,3 +85,5 @@ class CssSyntaxError extends Error {
 }
 
 export default CssSyntaxError;
+
+CssSyntaxError.default = CssSyntaxError;

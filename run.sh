@@ -1,9 +1,9 @@
 # Clean old files
 rm -rf deno
-rm -rf postcss
+# rm -rf postcss
 
 # Clone the repo
-git clone --depth 1 --branch master https://github.com/postcss/postcss.git
+# git clone --depth 1 --branch master https://github.com/postcss/postcss.git
 
 # Run the script
 deno run --unstable --allow-write --allow-read to_deno.js 

@@ -1,4 +1,3 @@
-import { Buffer } from "./deps.js";
 import { dirname, relative, resolve, sep } from "./deps.js";
 import { pathToFileURL } from "./deps.js";
 import { mozilla } from "./deps.js";

@@ -33,4 +33,6 @@ function parse(css, opts) {
 
 export default parse;
 
+parse.default = parse;
+
 Container.registerParse(parse);

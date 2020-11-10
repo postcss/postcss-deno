@@ -54,3 +54,5 @@ Root.registerProcessor = (dependant) => {
 };
 
 export default Root;
+
+Root.default = Root;
