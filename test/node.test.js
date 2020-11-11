@@ -1,17 +1,14 @@
 import { assert, assertEquals } from "./deps.js";
-import { resolve } from "./deps.js";
+import { resolve } from "../lib/deps.js";
 
 import postcss, {
-  AnyNode,
   AtRule,
   CssSyntaxError,
   Declaration,
   parse,
-  Plugin,
-  Result,
   Root,
   Rule,
-} from "../lib/postcss.js";
+} from "../mod.js";
 
 function stringify(node, builder) {
   if (node.type === "rule") {
@@ -22,7 +19,7 @@ function stringify(node, builder) {
 Deno.test("error() generates custom error", () => {
   let file = resolve("a.css");
   let css = parse("a{}", { from: file });
-  let a = css.first as Rule;
+  let a = css.first;
   let error = a.error("Test");
   assert(error instanceof CssSyntaxError);
   assertEquals(error.message, file + ":1:1: Test");
@@ -36,8 +33,8 @@ Deno.test("error() generates custom error for nodes without source", () => {
 
 Deno.test("error() highlights index", () => {
   let root = parse("a { b: c }");
-  let a = root.first as Rule;
-  let b = a.first as Declaration;
+  let a = root.first;
+  let b = a.first;
   let error = b.error("Bad semicolon", { index: 1 });
   assertEquals(
     error.showSourceCode(false),
@@ -47,8 +44,8 @@ Deno.test("error() highlights index", () => {
 
 Deno.test("error() highlights word", () => {
   let root = parse("a { color: x red }");
-  let a = root.first as Rule;
-  let color = a.first as Declaration;
+  let a = root.first;
+  let color = a.first;
   let error = color.error("Wrong color", { word: "x" });
   assertEquals(
     error.showSourceCode(false),
@@ -58,8 +55,8 @@ Deno.test("error() highlights word", () => {
 
 Deno.test("error() highlights word in multiline string", () => {
   let root = parse("a { color: red\n           x }");
-  let a = root.first as Rule;
-  let color = a.first as Declaration;
+  let a = root.first;
+  let color = a.first;
   let error = color.error("Wrong color", { word: "x" });
   assertEquals(
     error.showSourceCode(false),
@@ -90,7 +87,7 @@ Deno.test("warn() accepts options", () => {
 
   let result = postcss([warner]).process("a{}");
   assert(result.warnings().length === 1);
-  let warning = result.warnings()[0] as any;
+  let warning = result.warnings()[0];
   assertEquals(warning.index, 1);
 });
 
@@ -139,8 +136,8 @@ Deno.test("replaceWith() inserts new root", () => {
 
 Deno.test("replaceWith() replaces node", () => {
   let css = parse("a{one:1;two:2}");
-  let a = css.first as Rule;
-  let one = a.first as Declaration;
+  let a = css.first;
+  let one = a.first;
   let result = one.replaceWith({ prop: "fix", value: "fixed" });
 
   assertEquals(result.prop, "one");
@@ -150,8 +147,8 @@ Deno.test("replaceWith() replaces node", () => {
 
 Deno.test("replaceWith() can include itself", () => {
   let css = parse("a{one:1;two:2}");
-  let a = css.first as Rule;
-  let one = a.first as Declaration;
+  let a = css.first;
+  let one = a.first;
   let beforeDecl = { prop: "fix1", value: "fixedOne" };
   let afterDecl = { prop: "fix2", value: "fixedTwo" };
   one.replaceWith(beforeDecl, one, afterDecl);
@@ -245,7 +242,7 @@ Deno.test("after() insert after current node", () => {
 
 Deno.test("next() returns next node", () => {
   let css = parse("a{one:1;two:2}");
-  let a = css.first as Rule;
+  let a = css.first;
   assert(a.first?.next() === a.last);
   assert(typeof a.last?.next() === "undefined");
 });
@@ -257,7 +254,7 @@ Deno.test("next() returns undefined on no parent", () => {
 
 Deno.test("prev() returns previous node", () => {
   let css = parse("a{one:1;two:2}");
-  let a = css.first as Rule;
+  let a = css.first;
   assert(a.last?.prev() === a.first);
   assert(typeof a.first?.prev() === "undefined");
 });
@@ -271,7 +268,7 @@ Deno.test("toJSON() cleans parents inside", () => {
   let rule = new Rule({ selector: "a" });
   rule.append({ prop: "color", value: "b" });
 
-  let json = rule.toJSON() as any;
+  let json = rule.toJSON();
   assert(typeof json.parent === "undefined");
   assert(typeof json.nodes[0].parent === "undefined");
 
@@ -284,7 +281,7 @@ Deno.test("toJSON() cleans parents inside", () => {
 });
 
 Deno.test("toJSON() converts custom properties", () => {
-  let root = new Root() as any;
+  let root = new Root();
   root._cache = [1];
   root._hack = {
     toJSON() {
@@ -308,9 +305,9 @@ Deno.test("raw() has shortcut to stringifier", () => {
 
 Deno.test("root() returns root", () => {
   let css = parse("@page{a{color:black}}");
-  let page = css.first as AtRule;
-  let a = page.first as Rule;
-  let color = a.first as Declaration;
+  let page = css.first;
+  let a = page.first;
+  let color = a.first;
   assert(color.root() === css);
 });
 
@@ -333,9 +330,9 @@ Deno.test("cleanRaws() cleans style recursivelly", () => {
     css.toString(),
     "@page {\n    a {\n        color: black\n    }\n}",
   );
-  let page = css.first as AtRule;
-  let a = page.first as Rule;
-  let color = a.first as Declaration;
+  let page = css.first;
+  let a = page.first;
+  let color = a.first;
   assert(typeof page.raws.before === "undefined");
   assert(typeof color.raws.before === "undefined");
   assert(typeof page.raws.between === "undefined");
@@ -348,9 +345,9 @@ Deno.test("cleanRaws() keeps between on request", () => {
   css.cleanRaws(true);
 
   assertEquals(css.toString(), "@page{\n    a{\n        color:black\n    }\n}");
-  let page = css.first as AtRule;
-  let a = page.first as Rule;
-  let color = a.first as Declaration;
+  let page = css.first;
+  let a = page.first;
+  let color = a.first;
   assert(typeof page.raws.between !== "undefined");
   assert(typeof color.raws.between !== "undefined");
   assert(typeof page.raws.before === "undefined");
@@ -360,21 +357,21 @@ Deno.test("cleanRaws() keeps between on request", () => {
 
 Deno.test("positionInside() returns position when node starts mid-line", () => {
   let css = parse("a {  one: X  }");
-  let a = css.first as Rule;
-  let one = a.first as Declaration;
+  let a = css.first;
+  let one = a.first;
   assertEquals(one.positionInside(6), { line: 1, column: 12 });
 });
 
 Deno.test("positionInside() returns position when before contains newline", () => {
   let css = parse("a {\n  one: X}");
-  let a = css.first as Rule;
-  let one = a.first as Declaration;
+  let a = css.first;
+  let one = a.first;
   assertEquals(one.positionInside(6), { line: 2, column: 9 });
 });
 
 Deno.test("positionInside() returns position when node contains newlines", () => {
   let css = parse("a {\n\tone: 1\n\t\tX\n3}");
-  let a = css.first as Rule;
-  let one = a.first as Declaration;
+  let a = css.first;
+  let one = a.first;
   assertEquals(one.positionInside(10), { line: 3, column: 4 });
 });

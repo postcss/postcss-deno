@@ -1,5 +1,5 @@
 import { assertEquals } from "./deps.js";
-import { list } from "../lib/postcss.js";
+import { list } from "../mod.js";
 
 Deno.test("space() splits list by spaces", () => {
   assertEquals(list.space("a b"), ["a", "b"]);

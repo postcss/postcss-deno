@@ -1,5 +1,5 @@
 import { assertEquals } from "./deps.js";
-import postcss, { Plugin, Result, Root, Warning } from "../mod.js";
+import postcss, { Result, Root, Warning } from "../mod.js";
 import Processor from "../lib/processor.js";
 
 let processor = new Processor();

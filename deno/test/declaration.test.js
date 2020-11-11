@@ -22,7 +22,7 @@ Deno.test("inserts default spaces", () => {
 
 Deno.test("clones spaces from another declaration", () => {
   let root = parse("a{color:black}");
-  let rule = root.first as Rule;
+  let rule = root.first;
   let decl = new Declaration({ prop: "margin", value: "0" });
   rule.append(decl);
   assertEquals(root.toString(), "a{color:black;margin:0}");

@@ -35,13 +35,6 @@ Deno.test("insertAfter() does not use before of first rule", () => {
   assertEquals(css.toString(), "a{} .a{} b{} .b{}");
 });
 
-Deno.test("fixes spaces on removing first rule", () => {
-  let css = parse("a{}\nb{}\n");
-  if (!css.first) throw new Error("No nodes were parsed");
-  css.first.remove();
-  assertEquals(css.toString(), "b{}\n");
-});
-
 Deno.test("keeps spaces on moving root", () => {
   let css1 = parse("a{}\nb{}\n");
 

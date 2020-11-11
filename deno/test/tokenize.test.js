@@ -1,4 +1,4 @@
-import { assertEquals } from "./deps.js";
+import { assertEquals, assertThrows } from "./deps.js";
 import tokenizer from "../lib/tokenize.js";
 import { Input } from "../mod.js";
 
@@ -229,21 +229,21 @@ Deno.test("tokenizes CSS", () => {
 });
 
 Deno.test("throws error on unclosed string", () => {
-  expect(() => {
+  assertThrows(() => {
     tokenize(' "');
-  }).toThrow(/:1:2: Unclosed string/);
+  });
 });
 
 Deno.test("throws error on unclosed comment", () => {
-  expect(() => {
+  assertThrows(() => {
     tokenize(" /*");
-  }).toThrow(/:1:2: Unclosed comment/);
+  });
 });
 
 Deno.test("throws error on unclosed url", () => {
-  expect(() => {
+  assertThrows(() => {
     tokenize("url(");
-  }).toThrow(/:1:4: Unclosed bracket/);
+  });
 });
 
 Deno.test("ignores unclosing string on request", () => {

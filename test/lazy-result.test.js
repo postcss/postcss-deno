@@ -1,5 +1,5 @@
 import { assert, assertEquals } from "./deps.js";
-import mozilla from "source-map";
+import { mozilla } from "../lib/deps.js";
 import LazyResult from "../lib/lazy-result.js";
 import Processor from "../lib/processor.js";
 
