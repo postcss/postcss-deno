@@ -13,7 +13,6 @@ await convert({
   copy: {
     "deps.js": "lib/deps.js",
     "test": "test",
-    "test_deps.js": "test/deps.js",
   },
   beforeConvert(src, { replaceAll, rename }) {
     replaceAll((code) =>
