@@ -112,6 +112,10 @@ class LazyResult {
     });
   }
 
+  get [Symbol.toStringTag]() {
+    return "LazyResult";
+  }
+
   get processor() {
     return this.result.processor;
   }
