@@ -18,16 +18,17 @@ await convert({
     "postcss/LICENSE": "LICENSE",
   },
   beforeConvert(src, { replaceAll, rename }) {
+    //Remove colorette dependency
     replaceAll((code) =>
       code.replace(", options: colorette", "")
         .replace("if (color == null) color = colorette.enabled", "")
         .replace(", options as colorette", "")
     );
 
-    replaceAll((code) =>
-      code.replace(/\n\w+\.default = .*/g, '')
-    );
+    //Bug https://github.com/denoland/deno/issues/8355
+    replaceAll((code) => code.replace(/\n\w+\.default = .*/g, ""));
 
+    //Rename lib/postcss.mjs => mod.js
     rename(
       "lib/postcss.mjs",
       "mod.js",
