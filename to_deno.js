@@ -13,6 +13,9 @@ await convert({
   copy: {
     "deps.js": "lib/deps.js",
     "test": "test",
+    "postcss/README.md": "README.md",
+    "postcss/CHANGELOG.md": "CHANGELOG.md",
+    "postcss/LICENSE": "LICENSE",
   },
   beforeConvert(src, { replaceAll, rename }) {
     replaceAll((code) =>
