@@ -138,5 +138,3 @@ class PreviousMap {
 }
 
 export default PreviousMap;
-
-PreviousMap.default = PreviousMap;

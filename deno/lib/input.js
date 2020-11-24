@@ -1,7 +1,7 @@
 import { fileURLToPath, pathToFileURL } from "./deps.js";
 import { isAbsolute, resolve } from "./deps.js";
 import { nanoid } from "./deps.js";
-import { lineColumn } from "./deps.js";
+import { vfileLocation } from "./deps.js";
 import terminalHighlight from "./terminal-highlight.js";
 import CssSyntaxError from "./css-syntax-error.js";
 import PreviousMap from "./previous-map.js";
@@ -47,8 +47,14 @@ class Input {
   }
 
   fromOffset(offset) {
-    let finder = lineColumn(this.css);
-    this.fromOffset = (i) => finder.fromIndex(i);
+    let finder = vfileLocation(this.css);
+    this.fromOffset = (i) => {
+      let position = finder.toPoint(i);
+      return {
+        line: position.line,
+        col: position.column,
+      };
+    };
     return this.fromOffset(offset);
   }
 
@@ -139,8 +145,6 @@ class Input {
 }
 
 export default Input;
-
-Input.default = Input;
 
 if (terminalHighlight && terminalHighlight.registerInput) {
   terminalHighlight.registerInput(Input);

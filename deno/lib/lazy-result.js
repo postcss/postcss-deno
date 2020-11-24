@@ -480,6 +480,4 @@ LazyResult.registerPostcss = (dependant) => {
 
 export default LazyResult;
 
-LazyResult.default = LazyResult;
-
 Root.registerLazyResult(LazyResult);

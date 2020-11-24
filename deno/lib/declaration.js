@@ -19,5 +19,3 @@ class Declaration extends Node {
 }
 
 export default Declaration;
-
-Declaration.default = Declaration;

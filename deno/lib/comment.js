@@ -8,5 +8,3 @@ class Comment extends Node {
 }
 
 export default Comment;
-
-Comment.default = Comment;

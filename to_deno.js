@@ -21,6 +21,10 @@ await convert({
         .replace(", options as colorette", "")
     );
 
+    replaceAll((code) =>
+      code.replace(/\n\w+\.default = .*/g, '')
+    );
+
     rename(
       "lib/postcss.mjs",
       "mod.js",

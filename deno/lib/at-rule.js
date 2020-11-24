@@ -19,6 +19,4 @@ class AtRule extends Container {
 
 export default AtRule;
 
-AtRule.default = AtRule;
-
 Container.registerAtRule(AtRule);

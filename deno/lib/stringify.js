@@ -6,5 +6,3 @@ function stringify(node, builder) {
 }
 
 export default stringify;
-
-stringify.default = stringify;

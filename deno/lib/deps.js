@@ -16,7 +16,7 @@ export {
   sep,
 } from "https://deno.land/std@0.77.0/node/path.ts";
 export { default as Buffer } from "https://deno.land/std@0.77.0/node/buffer.ts";
-export { default as nanoid } from "https://deno.land/x/nanoid@v3.0.0/mod.ts";
+export { nanoid } from "https://deno.land/x/nanoid@v3.0.0/nanoid.ts";
 export { default as mozilla } from "https://dev.jspm.io/source-map@0.6.1/source-map.js";
 export {
   bold,
@@ -27,4 +27,4 @@ export {
   red,
   yellow,
 } from "https://deno.land/std@0.77.0/fmt/colors.ts";
-export { default as lineColumn } from "https://dev.jspm.io/line-column";
+export { default as vfileLocation } from "https://dev.jspm.io/vfile-location";

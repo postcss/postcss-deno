@@ -21,6 +21,4 @@ class Rule extends Container {
 
 export default Rule;
 
-Rule.default = Rule;
-
 Container.registerRule(Rule);

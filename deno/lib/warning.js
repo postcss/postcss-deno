@@ -30,5 +30,3 @@ class Warning {
 }
 
 export default Warning;
-
-Warning.default = Warning;

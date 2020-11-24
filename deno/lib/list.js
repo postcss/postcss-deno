@@ -51,5 +51,3 @@ let list = {
 };
 
 export default list;
-
-list.default = list;

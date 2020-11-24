@@ -1,12 +1,19 @@
 # Change Log
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 8.1.10
+* Fixed `LazyResult` type export (by Evan You).
+* Fixed `LazyResult` type compatibility with `Promise` (by Anton Kastritskiy).
+
+## 8.1.9
+* Reduced dependencies number (by Bogdan Chadkin).
+
 ## 8.1.8
-* Fix `LazyResult` type compatibility with `Promise` (by Ludovico Fischer).
-* Use HTTPS links in documentation.
+* Fixed `LazyResult` type compatibility with `Promise` (by Ludovico Fischer).
+* Fixed HTTPS links in documentation.
 
 ## 8.1.7
-* Fix `import` support in TypeScript (by Remco Haszing).
+* Fixed `import` support in TypeScript (by Remco Haszing).
 
 ## 8.1.6
 * Reverted `package.exports` Node.js 15 fix.
