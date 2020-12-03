@@ -3,7 +3,7 @@ import Root from "./root.js";
 
 class Processor {
   constructor(plugins = []) {
-    this.version = "8.1.10";
+    this.version = "8.1.13";
     this.plugins = this.normalize(plugins);
   }
 
@@ -18,7 +18,7 @@ class Processor {
       opts.parser === opts.stringifier &&
       !opts.hideNothingWarning
     ) {
-      if (Deno.env.NODE_ENV !== "production") {
+      if (Deno.env.DENO_ENV !== "production") {
         if (typeof console !== "undefined" && console.warn) {
           console.warn(
             "You did not set any plugins, parser, or stringifier. " +
@@ -47,7 +47,7 @@ class Processor {
       } else if (typeof i === "function") {
         normalized.push(i);
       } else if (typeof i === "object" && (i.parse || i.stringify)) {
-        if (Deno.env.NODE_ENV !== "production") {
+        if (Deno.env.DENO_ENV !== "production") {
           throw new Error(
             "PostCSS syntaxes cannot be used as plugins. Instead, please use " +
               "one of the syntax/parser/stringifier options as outlined " +

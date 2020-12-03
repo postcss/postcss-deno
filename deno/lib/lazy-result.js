@@ -14,6 +14,29 @@ const TYPE_TO_CLASS_NAME = {
   comment: "Comment",
 };
 
+const PLUGIN_PROPS = {
+  postcssPlugin: true,
+  prepare: true,
+  Once: true,
+  Root: true,
+  Declaration: true,
+  Rule: true,
+  AtRule: true,
+  Comment: true,
+  DeclarationExit: true,
+  RuleExit: true,
+  AtRuleExit: true,
+  CommentExit: true,
+  RootExit: true,
+  OnceExit: true,
+};
+
+const NOT_VISITORS = {
+  postcssPlugin: true,
+  prepare: true,
+  Once: true,
+};
+
 const CHILDREN = 0;
 
 function isPromise(obj) {
@@ -153,7 +176,7 @@ class LazyResult {
   }
 
   then(onFulfilled, onRejected) {
-    if (Deno.env.NODE_ENV !== "production") {
+    if (Deno.env.DENO_ENV !== "production") {
       if (!("from" in this.opts)) {
         warnOnce(
           "Without `from` option PostCSS could generate wrong source map " +
@@ -295,7 +318,7 @@ class LazyResult {
         error.plugin = plugin.postcssPlugin;
         error.setMessage();
       } else if (plugin.postcssVersion) {
-        if (Deno.env.NODE_ENV !== "production") {
+        if (Deno.env.DENO_ENV !== "production") {
           let pluginName = plugin.postcssPlugin;
           let pluginVer = plugin.postcssVersion;
           let runtimeVer = this.result.processor.version;
@@ -380,35 +403,29 @@ class LazyResult {
     };
     for (let plugin of this.plugins) {
       if (typeof plugin === "object") {
-        for (
-          let type of [
-            "Root",
-            "Declaration",
-            "Rule",
-            "AtRule",
-            "Comment",
-            "DeclarationExit",
-            "RuleExit",
-            "AtRuleExit",
-            "CommentExit",
-            "RootExit",
-            "OnceExit",
-          ]
-        ) {
-          if (typeof plugin[type] === "object") {
-            for (let filter in plugin[type]) {
-              if (filter === "*") {
-                add(plugin, type, plugin[type][filter]);
-              } else {
-                add(
-                  plugin,
-                  type + "-" + filter.toLowerCase(),
-                  plugin[type][filter],
-                );
+        for (let event in plugin) {
+          if (!PLUGIN_PROPS[event] && /^[A-Z]/.test(event)) {
+            throw new Error(
+              `Unknown event ${event} in ${plugin.postcssPlugin}. ` +
+                `Try to update PostCSS (${this.processor.version} now).`,
+            );
+          }
+          if (!NOT_VISITORS[event]) {
+            if (typeof plugin[event] === "object") {
+              for (let filter in plugin[event]) {
+                if (filter === "*") {
+                  add(plugin, event, plugin[event][filter]);
+                } else {
+                  add(
+                    plugin,
+                    event + "-" + filter.toLowerCase(),
+                    plugin[event][filter],
+                  );
+                }
               }
+            } else if (typeof plugin[event] === "function") {
+              add(plugin, event, plugin[event]);
             }
-          } else if (typeof plugin[type] === "function") {
-            add(plugin, type, plugin[type]);
           }
         }
       }

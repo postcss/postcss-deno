@@ -35,4 +35,9 @@ await convert({
       (code) => code.replace(`'./postcss.js'`, `"./lib/postcss.js"`),
     );
   },
+  afterConvert(src, { replaceAll }) {
+    replaceAll((code) => 
+      code.replaceAll("Deno.env.NODE_ENV", "Deno.env.DENO_ENV")
+    )
+  }
 });

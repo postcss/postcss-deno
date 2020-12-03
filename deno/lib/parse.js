@@ -8,7 +8,7 @@ function parse(css, opts) {
   try {
     parser.parse();
   } catch (e) {
-    if (Deno.env.NODE_ENV !== "production") {
+    if (Deno.env.DENO_ENV !== "production") {
       if (e.name === "CssSyntaxError" && opts && opts.from) {
         if (/\.scss$/i.test(opts.from)) {
           e.message += "\nYou tried to parse SCSS with " +
