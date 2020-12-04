@@ -1,7 +1,6 @@
 import { fileURLToPath, pathToFileURL } from "./deps.js";
 import { isAbsolute, resolve } from "./deps.js";
 import { nanoid } from "./deps.js";
-import { vfileLocation } from "./deps.js";
 import terminalHighlight from "./terminal-highlight.js";
 import CssSyntaxError from "./css-syntax-error.js";
 import PreviousMap from "./previous-map.js";
@@ -47,12 +46,39 @@ class Input {
   }
 
   fromOffset(offset) {
-    let finder = vfileLocation(this.css);
-    this.fromOffset = (i) => {
-      let position = finder.toPoint(i);
+    let lines = this.css.split("\n");
+    let lineToIndex = new Array(lines.length);
+    let prevIndex = 0;
+
+    for (let i = 0, l = lines.length; i < l; i++) {
+      lineToIndex[i] = prevIndex;
+      prevIndex += lines[i].length + 1;
+    }
+
+    let lastLine = lineToIndex[lineToIndex.length - 1];
+
+    this.fromOffset = (index) => {
+      let min = 0;
+      if (index >= lastLine) {
+        min = lineToIndex.length - 1;
+      } else {
+        let max = lineToIndex.length - 2;
+        let mid;
+        while (min < max) {
+          mid = min + ((max - min) >> 1);
+          if (index < lineToIndex[mid]) {
+            max = mid - 1;
+          } else if (index >= lineToIndex[mid + 1]) {
+            min = mid + 1;
+          } else {
+            min = mid;
+            break;
+          }
+        }
+      }
       return {
-        line: position.line,
-        col: position.column,
+        line: min + 1,
+        col: index - lineToIndex[min] + 1,
       };
     };
     return this.fromOffset(offset);
