@@ -3,6 +3,8 @@ import postcss from "./lib/postcss.js";
 export default postcss;
 
 export const stringify = postcss.stringify;
+
+export const fromJSON = postcss.fromJSON;
 export const plugin = postcss.plugin;
 export const parse = postcss.parse;
 export const list = postcss.list;

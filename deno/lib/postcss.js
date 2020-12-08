@@ -4,6 +4,7 @@ import LazyResult from "./lazy-result.js";
 import Container from "./container.js";
 import Processor from "./processor.js";
 import stringify from "./stringify.js";
+import fromJSON from "./fromJSON.js";
 import Warning from "./warning.js";
 import Comment from "./comment.js";
 import AtRule from "./at-rule.js";
@@ -60,6 +61,7 @@ postcss.plugin = function plugin(name, initializer) {
 
 postcss.stringify = stringify;
 postcss.parse = parse;
+postcss.fromJSON = fromJSON;
 postcss.list = list;
 
 postcss.comment = (defaults) => new Comment(defaults);
