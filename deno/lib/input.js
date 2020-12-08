@@ -1,10 +1,11 @@
 import { fileURLToPath, pathToFileURL } from "./deps.js";
 import { isAbsolute, resolve } from "./deps.js";
 import { nanoid } from "./deps.js";
-import { vfileLocation } from "./deps.js";
 import terminalHighlight from "./terminal-highlight.js";
 import CssSyntaxError from "./css-syntax-error.js";
 import PreviousMap from "./previous-map.js";
+
+let fromOffsetCache = Symbol("fromOffset cache");
 
 class Input {
   constructor(css, opts = {}) {
@@ -47,15 +48,45 @@ class Input {
   }
 
   fromOffset(offset) {
-    let finder = vfileLocation(this.css);
-    this.fromOffset = (i) => {
-      let position = finder.toPoint(i);
-      return {
-        line: position.line,
-        col: position.column,
-      };
+    let lastLine, lineToIndex;
+    if (!this[fromOffsetCache]) {
+      let lines = this.css.split("\n");
+      lineToIndex = new Array(lines.length);
+      let prevIndex = 0;
+
+      for (let i = 0, l = lines.length; i < l; i++) {
+        lineToIndex[i] = prevIndex;
+        prevIndex += lines[i].length + 1;
+      }
+
+      this[fromOffsetCache] = lineToIndex;
+    } else {
+      lineToIndex = this[fromOffsetCache];
+    }
+    lastLine = lineToIndex[lineToIndex.length - 1];
+
+    let min = 0;
+    if (offset >= lastLine) {
+      min = lineToIndex.length - 1;
+    } else {
+      let max = lineToIndex.length - 2;
+      let mid;
+      while (min < max) {
+        mid = min + ((max - min) >> 1);
+        if (offset < lineToIndex[mid]) {
+          max = mid - 1;
+        } else if (offset >= lineToIndex[mid + 1]) {
+          min = mid + 1;
+        } else {
+          min = mid;
+          break;
+        }
+      }
+    }
+    return {
+      line: min + 1,
+      col: offset - lineToIndex[min] + 1,
     };
-    return this.fromOffset(offset);
   }
 
   error(message, line, column, opts = {}) {
@@ -141,6 +172,22 @@ class Input {
 
   get from() {
     return this.file || this.id;
+  }
+
+  toJSON() {
+    let json = {};
+    for (let name of ["hasBOM", "css", "file", "id"]) {
+      if (this[name] != null) {
+        json[name] = this[name];
+      }
+    }
+    if (this.map) {
+      json.map = { ...this.map };
+      if (json.map.consumerCache) {
+        json.map.consumerCache = undefined;
+      }
+    }
+    return json;
   }
 }
 
