@@ -27,4 +27,3 @@ export {
   red,
   yellow,
 } from "https://deno.land/std@0.77.0/fmt/colors.ts";
-export { default as vfileLocation } from "https://dev.jspm.io/vfile-location";

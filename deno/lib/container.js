@@ -425,3 +425,5 @@ Container.registerAtRule = (dependant) => {
 };
 
 export default Container;
+
+Container.default = Container;

@@ -85,3 +85,5 @@ class CssSyntaxError extends Error {
 }
 
 export default CssSyntaxError;
+
+CssSyntaxError.default = CssSyntaxError;

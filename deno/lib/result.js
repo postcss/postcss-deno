@@ -37,3 +37,5 @@ class Result {
 }
 
 export default Result;
+
+Result.default = Result;

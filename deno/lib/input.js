@@ -193,6 +193,8 @@ class Input {
 
 export default Input;
 
+Input.default = Input;
+
 if (terminalHighlight && terminalHighlight.registerInput) {
   terminalHighlight.registerInput(Input);
 }

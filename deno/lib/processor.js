@@ -3,7 +3,7 @@ import Root from "./root.js";
 
 class Processor {
   constructor(plugins = []) {
-    this.version = "8.2.0";
+    this.version = "8.2.2";
     this.plugins = this.normalize(plugins);
   }
 
@@ -63,5 +63,7 @@ class Processor {
 }
 
 export default Processor;
+
+Processor.default = Processor;
 
 Root.registerProcessor(Processor);

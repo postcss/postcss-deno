@@ -293,6 +293,7 @@ Deno.test("toJSON() converts custom properties", () => {
     type: "root",
     nodes: [],
     raws: {},
+    inputs: [],
     _hack: "hack",
     _cache: [1],
   });
