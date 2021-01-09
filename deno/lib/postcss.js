@@ -20,19 +20,21 @@ function postcss(...plugins) {
   if (plugins.length === 1 && Array.isArray(plugins[0])) {
     plugins = plugins[0];
   }
-  return new Processor(plugins, postcss);
+  return new Processor(plugins);
 }
 
 postcss.plugin = function plugin(name, initializer) {
   if (console && console.warn) {
     console.warn(
-      "postcss.plugin was deprecated. Migration guide:\n" +
+      name +
+        ": postcss.plugin was deprecated. Migration guide:\n" +
         "https://evilmartians.com/chronicles/postcss-8-plugin-migration",
     );
     if (Deno.env.LANG && Deno.env.LANG.startsWith("cn")) {
       // istanbul ignore next
       console.warn(
-        "postcss.plugin 被弃用. 迁移指南:\n" +
+        name +
+          ": 里面 postcss.plugin 被弃用. 迁移指南:\n" +
           "https://www.w3ctech.com/topic/2226",
       );
     }

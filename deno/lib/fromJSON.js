@@ -7,6 +7,8 @@ import Root from "./root.js";
 import Rule from "./rule.js";
 
 function fromJSON(json, inputs) {
+  if (Array.isArray(json)) return json.map((n) => fromJSON(n));
+
   let { inputs: ownInputs, ...defaults } = json;
   if (ownInputs) {
     inputs = [];

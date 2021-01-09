@@ -274,9 +274,7 @@ Deno.test("toJSON() cleans parents inside", () => {
 
   assertEquals(
     JSON.stringify(rule),
-    '{"raws":{},"selector":"a","type":"rule","nodes":[' +
-      '{"raws":{},"prop":"color","value":"b","type":"decl"}' +
-      "]}",
+    '{"raws":{},"selector":"a","type":"rule","nodes":[{"raws":{},"prop":"color","value":"b","type":"decl"}],"inputs":[]}',
   );
 });
 

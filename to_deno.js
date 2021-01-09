@@ -25,9 +25,6 @@ await convert({
         .replace(", options as colorette", "")
     );
 
-    //Bug https://github.com/denoland/deno/issues/8355
-    // replaceAll((code) => code.replace(/\n\w+\.default = .*/g, ""));
-
     //Rename lib/postcss.mjs => mod.js
     rename(
       "lib/postcss.mjs",
