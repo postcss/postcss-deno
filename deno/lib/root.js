@@ -1,3 +1,5 @@
+/// <reference types="./root.d.ts" />
+
 import Container from "./container.js";
 
 let LazyResult, Processor;

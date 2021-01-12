@@ -1,3 +1,5 @@
+/// <reference types="./rule.d.ts" />
+
 import Container from "./container.js";
 import list from "./list.js";
 

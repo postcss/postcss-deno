@@ -1,3 +1,5 @@
+/// <reference types="./parse.d.ts" />
+
 import Container from "./container.js";
 import Parser from "./parser.js";
 import Input from "./input.js";

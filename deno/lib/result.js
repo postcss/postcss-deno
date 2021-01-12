@@ -1,3 +1,5 @@
+/// <reference types="./result.d.ts" />
+
 import Warning from "./warning.js";
 
 class Result {

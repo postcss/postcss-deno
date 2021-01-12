@@ -1,3 +1,5 @@
+/// <reference types="./container.d.ts" />
+
 import Declaration from "./declaration.js";
 import { isClean } from "./symbols.js";
 import Comment from "./comment.js";

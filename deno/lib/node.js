@@ -1,3 +1,5 @@
+/// <reference types="./node.d.ts" />
+
 import CssSyntaxError from "./css-syntax-error.js";
 import Stringifier from "./stringifier.js";
 import { isClean } from "./symbols.js";

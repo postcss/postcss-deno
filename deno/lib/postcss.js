@@ -1,3 +1,5 @@
+/// <reference types="./postcss.d.ts" />
+
 import CssSyntaxError from "./css-syntax-error.js";
 import Declaration from "./declaration.js";
 import LazyResult from "./lazy-result.js";

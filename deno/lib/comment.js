@@ -1,3 +1,5 @@
+/// <reference types="./comment.d.ts" />
+
 import Node from "./node.js";
 
 class Comment extends Node {

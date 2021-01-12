@@ -1,3 +1,5 @@
+/// <reference types="./fromJSON.d.ts" />
+
 import Declaration from "./declaration.js";
 import PreviousMap from "./previous-map.js";
 import Comment from "./comment.js";

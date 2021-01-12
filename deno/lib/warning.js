@@ -1,3 +1,5 @@
+/// <reference types="./warning.d.ts" />
+
 class Warning {
   constructor(text, opts = {}) {
     this.type = "warning";

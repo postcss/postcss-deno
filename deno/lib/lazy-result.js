@@ -1,3 +1,5 @@
+/// <reference types="./lazy-result.d.ts" />
+
 import MapGenerator from "./map-generator.js";
 import { isClean } from "./symbols.js";
 import stringify from "./stringify.js";

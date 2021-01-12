@@ -1,3 +1,5 @@
+/// <reference types="./stringify.d.ts" />
+
 import Stringifier from "./stringifier.js";
 
 function stringify(node, builder) {

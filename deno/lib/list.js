@@ -1,3 +1,5 @@
+/// <reference types="./list.d.ts" />
+
 let list = {
   split(string, separators, last) {
     let array = [];

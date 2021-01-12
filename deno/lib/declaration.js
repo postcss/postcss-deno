@@ -1,3 +1,5 @@
+/// <reference types="./declaration.d.ts" />
+
 import Node from "./node.js";
 
 class Declaration extends Node {

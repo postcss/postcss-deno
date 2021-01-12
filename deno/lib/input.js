@@ -1,6 +1,9 @@
-import { fileURLToPath, pathToFileURL } from "./deps.js";
-import { isAbsolute, resolve } from "./deps.js";
-import { nanoid } from "./deps.js";
+/// <reference types="./input.d.ts" />
+
+import { fileURLToPath, pathToFileURL } from "./deps.ts";
+import { isAbsolute, resolve } from "./deps.ts";
+import { nanoid } from "./deps.ts";
+
 import terminalHighlight from "./terminal-highlight.js";
 import CssSyntaxError from "./css-syntax-error.js";
 import PreviousMap from "./previous-map.js";

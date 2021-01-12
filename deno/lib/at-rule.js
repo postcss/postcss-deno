@@ -1,3 +1,5 @@
+/// <reference types="./at-rule.d.ts" />
+
 import Container from "./container.js";
 
 class AtRule extends Container {

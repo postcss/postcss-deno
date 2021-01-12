@@ -1,6 +1,10 @@
-import { existsSync, readFileSync } from "./deps.js";
-import { dirname, join } from "./deps.js";
-import { mozilla } from "./deps.js";
+import { Buffer } from "./deps.ts";
+
+/// <reference types="./previous-map.d.ts" />
+
+import { existsSync, readFileSync } from "./deps.ts";
+import { dirname, join } from "./deps.ts";
+import { mozilla } from "./deps.ts";
 
 function fromBase64(str) {
   if (Buffer) {

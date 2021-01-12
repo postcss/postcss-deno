@@ -1,3 +1,5 @@
+/// <reference types="./processor.d.ts" />
+
 import LazyResult from "./lazy-result.js";
 import Root from "./root.js";
 

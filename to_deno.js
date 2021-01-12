@@ -1,17 +1,17 @@
-import { convert } from "https://deno.land/x/nodedeno@v0.2.4/mod.js";
+import { convert } from "https://deno.land/x/nodedeno@v0.2.5/mod.js";
 
 //Convert the code
 await convert({
   src: "postcss",
   input: ["lib"],
   output: "deno",
-  transpile: true,
+  transpile: false,
   modules: {
     "": "mod.js",
-    "deps.js": "lib/deps.js",
+    "deps.js": "lib/deps.ts",
   },
   copy: {
-    "deps.js": "lib/deps.js",
+    "deps.ts": "lib/deps.ts",
     "test": "test",
     "postcss/README.md": "README.md",
     "postcss/CHANGELOG.md": "CHANGELOG.md",

@@ -1,4 +1,7 @@
-import { bold, gray, red } from "./deps.js";
+/// <reference types="./css-syntax-error.d.ts" />
+
+import { bold, gray, red } from "./deps.ts";
+
 import terminalHighlight from "./terminal-highlight.js";
 
 class CssSyntaxError extends Error {
