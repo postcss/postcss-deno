@@ -33,8 +33,8 @@ await convert({
     );
   },
   afterConvert(src, { replaceAll }) {
-    replaceAll((code) => 
+    replaceAll((code) =>
       code.replaceAll("Deno.env.NODE_ENV", "Deno.env.DENO_ENV")
-    )
-  }
+    );
+  },
 });

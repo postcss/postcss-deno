@@ -1,16 +1,22 @@
-// @deno-types="https://raw.githubusercontent.com/oscarotero/deno-source-map/master/source-map.d.ts"
-export * as mozilla from "https://raw.githubusercontent.com/oscarotero/deno-source-map/master/mod.js";
+// @deno-types="https://deno.land/x/source_map@0.7.3/source-map.d.ts"
+export * as mozilla from "https://deno.land/x/source_map@0.7.3/mod.js";
 
-export type { SourceMapConsumer, SourceMapGenerator, RawSourceMap } from "https://raw.githubusercontent.com/oscarotero/deno-source-map/master/source-map.d.ts";
+export type {
+  RawSourceMap,
+  SourceMapConsumer,
+  SourceMapGenerator,
+} from "https://deno.land/x/source_map@0.7.3/source-map.d.ts";
 
 export {
   fileURLToPath,
   pathToFileURL,
 } from "https://deno.land/std@0.77.0/node/url.ts";
+
 export {
   existsSync,
   readFileSync,
 } from "https://deno.land/std@0.77.0/node/fs.ts";
+
 export {
   basename,
   dirname,
@@ -20,10 +26,10 @@ export {
   resolve,
   sep,
 } from "https://deno.land/std@0.77.0/node/path.ts";
-export { default as Buffer } from "https://deno.land/std@0.77.0/node/buffer.ts";
-export { nanoid } from "https://deno.land/x/nanoid@v3.0.0/nanoid.ts";
-// export { default as mozilla } from "https://cdn.skypack.dev/source-map";
 
+export { default as Buffer } from "https://deno.land/std@0.77.0/node/buffer.ts";
+
+export { nanoid } from "https://deno.land/x/nanoid@v3.0.0/nanoid.ts";
 
 export {
   bold,
