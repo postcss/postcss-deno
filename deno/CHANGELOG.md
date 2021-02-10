@@ -2,9 +2,14 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 8.2.6
+
+- Fixed `Maximum call stack size exceeded` in `Node#toJSON`.
+- Fixed docs (by inokawa).
+
 ## 8.2.5
 
-- Fixed escaped characters handling in `list.parse` (by Natalie Weizenbaum).
+- Fixed escaped characters handling in `list.split` (by Natalie Weizenbaum).
 
 ## 8.2.4
 

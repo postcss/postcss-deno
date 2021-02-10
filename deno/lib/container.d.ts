@@ -302,7 +302,7 @@ export default abstract class Container extends Node {
    * Add child to the end of the node.
    *
    * ```js
-   * rule.push(new Declaration({ prop: 'color', value: 'black' }}))
+   * rule.push(new Declaration({ prop: 'color', value: 'black' }))
    * ```
    *
    * @param child New node.
