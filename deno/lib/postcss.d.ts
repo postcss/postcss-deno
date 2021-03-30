@@ -1,37 +1,25 @@
 import { RawSourceMap, SourceMapGenerator } from "./deps.ts";
-
 import Node, {
   AnyNode,
   ChildNode,
   ChildProps,
+  NodeErrorOptions,
   NodeProps,
   Position,
   Source,
 } from "./node.js";
 import Declaration, { DeclarationProps } from "./declaration.js";
-
 import Root, { RootProps } from "./root.js";
-
 import Comment, { CommentProps } from "./comment.js";
-
 import AtRule, { AtRuleProps } from "./at-rule.js";
-
 import Result, { Message } from "./result.js";
-
 import LazyResult from "./lazy-result.js";
-
 import Rule, { RuleProps } from "./rule.js";
-
 import Container, { ContainerProps } from "./container.js";
-
 import Warning, { WarningOptions } from "./warning.js";
-
 import Input, { FilePosition } from "./input.js";
-
 import CssSyntaxError from "./css-syntax-error.js";
-
 import list, { List } from "./list.js";
-
 import Processor from "./processor.js";
 
 export {
@@ -53,6 +41,7 @@ export {
   list,
   Message,
   Node,
+  NodeErrorOptions,
   NodeProps,
   Position,
   Result,
@@ -341,7 +330,7 @@ export interface Postcss {
    * as CSS processors.
    *
    * ```js
-   *import { postcss } from "./deps.ts"
+   * import { postcss } from "./deps.ts"
 
    *
    * postcss(plugins).process(css, { from, to }).then(result => {

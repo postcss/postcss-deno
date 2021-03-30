@@ -1,11 +1,7 @@
 import Node, { ChildNode, ChildProps, NodeProps } from "./node.js";
-
 import Declaration from "./declaration.js";
-
 import Comment from "./comment.js";
-
 import AtRule from "./at-rule.js";
-
 import Rule from "./rule.js";
 
 interface ValueOptions {

@@ -1,7 +1,5 @@
 import Container, { ContainerProps } from "./container.js";
-
 import { ProcessOptions } from "./postcss.js";
-
 import Result from "./result.js";
 
 interface RootRaws {

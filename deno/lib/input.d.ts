@@ -1,5 +1,4 @@
 import { ProcessOptions } from "./postcss.js";
-
 import PreviousMap from "./previous-map.js";
 
 export interface FilePosition {

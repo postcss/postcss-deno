@@ -1,8 +1,9 @@
 import { Buffer } from "./deps.ts";
-
 import { dirname, relative, resolve, sep } from "./deps.ts";
 import { pathToFileURL } from "./deps.ts";
 import { mozilla } from "./deps.ts";
+
+let pathAvailable = Boolean(dirname, resolve, relative, sep);
 
 class MapGenerator {
   constructor(stringify, root, opts) {
@@ -275,7 +276,7 @@ class MapGenerator {
   generate() {
     this.clearAnnotation();
 
-    if (this.isMap()) {
+    if (pathAvailable && this.isMap()) {
       return this.generateMap();
     }
 

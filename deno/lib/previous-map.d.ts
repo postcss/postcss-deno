@@ -1,5 +1,4 @@
 import { SourceMapConsumer } from "./deps.ts";
-
 import { ProcessOptions } from "./postcss.js";
 
 /**

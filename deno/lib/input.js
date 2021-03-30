@@ -3,12 +3,13 @@
 import { fileURLToPath, pathToFileURL } from "./deps.ts";
 import { isAbsolute, resolve } from "./deps.ts";
 import { nanoid } from "./deps.ts";
-
 import terminalHighlight from "./terminal-highlight.js";
 import CssSyntaxError from "./css-syntax-error.js";
 import PreviousMap from "./previous-map.js";
 
 let fromOffsetCache = Symbol("fromOffset cache");
+
+let pathAvailable = Boolean(resolve && isAbsolute);
 
 class Input {
   constructor(css, opts = {}) {
@@ -30,18 +31,24 @@ class Input {
     }
 
     if (opts.from) {
-      if (/^\w+:\/\//.test(opts.from) || isAbsolute(opts.from)) {
+      if (
+        !pathAvailable ||
+        /^\w+:\/\//.test(opts.from) ||
+        isAbsolute(opts.from)
+      ) {
         this.file = opts.from;
       } else {
         this.file = resolve(opts.from);
       }
     }
 
-    let map = new PreviousMap(this.css, opts);
-    if (map.text) {
-      this.map = map;
-      let file = map.consumer().file;
-      if (!this.file && file) this.file = this.mapResolve(file);
+    if (pathAvailable) {
+      let map = new PreviousMap(this.css, opts);
+      if (map.text) {
+        this.map = map;
+        let file = map.consumer().file;
+        if (!this.file && file) this.file = this.mapResolve(file);
+      }
     }
 
     if (!this.file) {

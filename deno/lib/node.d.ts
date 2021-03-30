@@ -1,23 +1,13 @@
 import Declaration, { DeclarationProps } from "./declaration.js";
-
 import Comment, { CommentProps } from "./comment.js";
-
 import { Stringifier, Syntax } from "./postcss.js";
-
 import AtRule, { AtRuleProps } from "./at-rule.js";
-
 import Rule, { RuleProps } from "./rule.js";
-
 import { WarningOptions } from "./warning.js";
-
 import CssSyntaxError from "./css-syntax-error.js";
-
 import Container from "./container.js";
-
 import Result from "./result.js";
-
 import Input from "./input.js";
-
 import Root from "./root.js";
 
 export type ChildNode = AtRule | Rule | Declaration | Comment;

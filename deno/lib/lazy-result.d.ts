@@ -1,11 +1,7 @@
 import Result, { Message, ResultOptions } from "./result.js";
-
 import { SourceMap } from "./postcss.js";
-
 import Processor from "./processor.js";
-
 import Warning from "./warning.js";
-
 import Root from "./root.js";
 
 /**

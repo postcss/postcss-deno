@@ -2,6 +2,14 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 8.2.9
+
+- Exported `NodeErrorOptions` type (by Rouven Weßling).
+
+## 8.2.8
+
+- Fixed browser builds in webpack 4 (by Matt Jones).
+
 ## 8.2.7
 
 - Fixed browser builds in webpack 5 (by Matt Jones).

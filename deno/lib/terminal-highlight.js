@@ -1,5 +1,4 @@
 import { cyan, gray, green, magenta, yellow } from "./deps.ts";
-
 import tokenizer from "./tokenize.js";
 
 let Input;
