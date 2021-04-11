@@ -3,7 +3,7 @@ import { dirname, relative, resolve, sep } from "./deps.ts";
 import { pathToFileURL } from "./deps.ts";
 import { mozilla } from "./deps.ts";
 
-let pathAvailable = Boolean(dirname, resolve, relative, sep);
+let pathAvailable = Boolean(dirname && resolve && relative && sep);
 
 class MapGenerator {
   constructor(stringify, root, opts) {
@@ -201,7 +201,14 @@ class MapGenerator {
     if (this.mapOpts.from) {
       return this.toUrl(this.mapOpts.from);
     } else if (this.mapOpts.absolute) {
-      return pathToFileURL(node.source.input.from).toString();
+      if (pathToFileURL) {
+        return pathToFileURL(node.source.input.from).toString();
+      } else {
+        // istanbul ignore next
+        throw new Error(
+          "`map.absolute` option is not available in this PostCSS build",
+        );
+      }
     } else {
       return this.toUrl(this.path(node.source.input.from));
     }

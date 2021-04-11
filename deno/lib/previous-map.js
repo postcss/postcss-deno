@@ -50,13 +50,12 @@ class PreviousMap {
   }
 
   getAnnotationURL(sourceMapString) {
-    return sourceMapString
-      .match(/\/\*\s*# sourceMappingURL=(.*)\s*\*\//)[1]
+    return sourceMapString.match(/\/\*\s*# sourceMappingURL=(.*)\*\//)[1]
       .trim();
   }
 
   loadAnnotation(css) {
-    let annotations = css.match(/\/\*\s*# sourceMappingURL=.*\s*\*\//gm);
+    let annotations = css.match(/\/\*\s*# sourceMappingURL=.*\*\//gm);
 
     if (annotations && annotations.length > 0) {
       // Locate the last sourceMappingURL to avoid picking up

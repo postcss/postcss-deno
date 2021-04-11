@@ -129,7 +129,9 @@ class Input {
 
     result.input = { line, column, source: this.css };
     if (this.file) {
-      result.input.url = pathToFileURL(this.file).toString();
+      if (pathToFileURL) {
+        result.input.url = pathToFileURL(this.file).toString();
+      }
       result.input.file = this.file;
     }
 
@@ -161,7 +163,14 @@ class Input {
     };
 
     if (fromUrl.protocol === "file:") {
-      result.file = fileURLToPath(fromUrl);
+      if (fileURLToPath) {
+        result.file = fileURLToPath(fromUrl);
+      } else {
+        // istanbul ignore next
+        throw new Error(
+          `file: protocol is not available in this PostCSS build`,
+        );
+      }
     }
 
     let source = consumer.sourceContentFor(from.source);
