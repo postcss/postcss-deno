@@ -2,6 +2,11 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 8.2.11
+
+- Fixed `DEP0148` warning in Node.js 16.
+- Fixed docs (by @semiromid).
+
 ## 8.2.10
 
 - Fixed ReDoS vulnerabilities in source map parsing.
