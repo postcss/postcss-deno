@@ -1,4 +1,4 @@
-import { convert } from "https://deno.land/x/nodedeno@v0.2.6/mod.js";
+import { convert } from "https://deno.land/x/nodedeno@v0.2.7/mod.js";
 
 //Convert the code
 await convert({
@@ -8,10 +8,12 @@ await convert({
   transpile: false,
   modules: {
     "": "mod.js",
-    "deps.js": "lib/deps.ts",
+    "deps.js": "lib/deps.js",
+    "source-map": "lib/source_map.ts",
   },
   copy: {
-    "deps.ts": "lib/deps.ts",
+    "source_map.ts": "lib/source_map.ts",
+    "deps.js": "lib/deps.js",
     "test": "test",
     "postcss/README.md": "README.md",
     "postcss/CHANGELOG.md": "CHANGELOG.md",

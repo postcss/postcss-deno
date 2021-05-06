@@ -1,5 +1,5 @@
 import { assert, assertEquals } from "./deps.js";
-import { mozilla } from "../lib/deps.ts";
+import { SourceMapGenerator } from "../lib/source_map.ts";
 import LazyResult from "../lib/lazy-result.js";
 import Processor from "../lib/processor.js";
 
@@ -33,7 +33,7 @@ Deno.test("has map only if necessary", () => {
   assert(typeof result2.map === "undefined");
 
   let result3 = new LazyResult(processor, "", { map: { inline: false } });
-  assert(result3.map instanceof mozilla.SourceMapGenerator);
+  assert(result3.map instanceof SourceMapGenerator);
 });
 
 Deno.test("contains options", () => {

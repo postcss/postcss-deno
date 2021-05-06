@@ -1,4 +1,4 @@
-import { RawSourceMap, SourceMapGenerator } from "./deps.ts";
+import { RawSourceMap, SourceMapGenerator } from "./source_map.ts";
 import Node, {
   AnyNode,
   ChildNode,
@@ -330,7 +330,7 @@ export interface Postcss {
    * as CSS processors.
    *
    * ```js
-   * import { postcss } from "./deps.ts"
+   * import { postcss } from "./deps.js"
 
    *
    * postcss(plugins).process(css, { from, to }).then(result => {

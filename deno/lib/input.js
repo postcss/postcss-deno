@@ -1,14 +1,16 @@
 /// <reference types="./input.d.ts" />
 
-import { fileURLToPath, pathToFileURL } from "./deps.ts";
-import { isAbsolute, resolve } from "./deps.ts";
-import { nanoid } from "./deps.ts";
+import { fileURLToPath, pathToFileURL } from "./deps.js";
+import { isAbsolute, resolve } from "./deps.js";
+import { SourceMapConsumer, SourceMapGenerator } from "./source_map.ts";
+import { nanoid } from "./deps.js";
 import terminalHighlight from "./terminal-highlight.js";
 import CssSyntaxError from "./css-syntax-error.js";
 import PreviousMap from "./previous-map.js";
 
 let fromOffsetCache = Symbol("fromOffset cache");
 
+let sourceMapAvailable = Boolean(SourceMapConsumer && SourceMapGenerator);
 let pathAvailable = Boolean(resolve && isAbsolute);
 
 class Input {
@@ -42,7 +44,7 @@ class Input {
       }
     }
 
-    if (pathAvailable) {
+    if (pathAvailable && sourceMapAvailable) {
       let map = new PreviousMap(this.css, opts);
       if (map.text) {
         this.map = map;

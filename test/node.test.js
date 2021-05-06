@@ -1,5 +1,5 @@
 import { assert, assertEquals } from "./deps.js";
-import { resolve } from "../lib/deps.ts";
+import { resolve } from "../lib/deps.js";
 
 import postcss, {
   AtRule,

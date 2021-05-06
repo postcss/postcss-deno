@@ -1,4 +1,4 @@
-import { Buffer } from "./deps.ts";
+import { Buffer } from "./deps.js";
 import {
   AcceptedPlugin,
   Plugin,

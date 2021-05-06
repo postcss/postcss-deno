@@ -1,10 +1,10 @@
-import { Buffer } from "./deps.ts";
+import { Buffer } from "./deps.js";
 
 /// <reference types="./previous-map.d.ts" />
 
-import { existsSync, readFileSync } from "./deps.ts";
-import { dirname, join } from "./deps.ts";
-import { mozilla } from "./deps.ts";
+import { existsSync, readFileSync } from "./deps.js";
+import { dirname, join } from "./deps.js";
+import { SourceMapConsumer, SourceMapGenerator } from "./source_map.ts";
 
 function fromBase64(str) {
   if (Buffer) {
@@ -32,7 +32,7 @@ class PreviousMap {
 
   consumer() {
     if (!this.consumerCache) {
-      this.consumerCache = new mozilla.SourceMapConsumer(this.text);
+      this.consumerCache = new SourceMapConsumer(this.text);
     }
     return this.consumerCache;
   }
@@ -50,9 +50,9 @@ class PreviousMap {
   }
 
   getAnnotationURL(sourceMapString) {
-    return sourceMapString.match(
-      /\/\*\s*# sourceMappingURL=((?:(?!sourceMappingURL=).)*)\*\//,
-    )[1].trim();
+    return sourceMapString
+      .match(/\/\*\s*# sourceMappingURL=((?:(?!sourceMappingURL=).)*)\*\//)[1]
+      .trim();
   }
 
   loadAnnotation(css) {
@@ -113,9 +113,9 @@ class PreviousMap {
           }
           return map;
         }
-      } else if (prev instanceof mozilla.SourceMapConsumer) {
-        return mozilla.SourceMapGenerator.fromSourceMap(prev).toString();
-      } else if (prev instanceof mozilla.SourceMapGenerator) {
+      } else if (prev instanceof SourceMapConsumer) {
+        return SourceMapGenerator.fromSourceMap(prev).toString();
+      } else if (prev instanceof SourceMapGenerator) {
         return prev.toString();
       } else if (this.isMap(prev)) {
         return JSON.stringify(prev);

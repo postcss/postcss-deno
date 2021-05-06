@@ -1,12 +1,3 @@
-// @deno-types="https://deno.land/x/source_map@0.6.2/source-map.d.ts"
-export * as mozilla from "https://deno.land/x/source_map@0.6.2/mod.js"
-
-export type {
-  RawSourceMap,
-  SourceMapConsumer,
-  SourceMapGenerator,
-} from "https://deno.land/x/source_map@0.7.4/source-map.d.ts";
-
 export {
   fileURLToPath,
   pathToFileURL,

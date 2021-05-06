@@ -1,8 +1,9 @@
-import { Buffer } from "./deps.ts";
-import { dirname, relative, resolve, sep } from "./deps.ts";
-import { pathToFileURL } from "./deps.ts";
-import { mozilla } from "./deps.ts";
+import { Buffer } from "./deps.js";
+import { dirname, relative, resolve, sep } from "./deps.js";
+import { pathToFileURL } from "./deps.js";
+import { SourceMapConsumer, SourceMapGenerator } from "./source_map.ts";
 
+let sourceMapAvailable = Boolean(SourceMapConsumer && SourceMapGenerator);
 let pathAvailable = Boolean(dirname && resolve && relative && sep);
 
 class MapGenerator {
@@ -98,7 +99,7 @@ class MapGenerator {
       let map;
 
       if (this.mapOpts.sourcesContent === false) {
-        map = new mozilla.SourceMapConsumer(prev.text);
+        map = new SourceMapConsumer(prev.text);
         if (map.sourcesContent) {
           map.sourcesContent = map.sourcesContent.map(() => null);
         }
@@ -216,7 +217,7 @@ class MapGenerator {
 
   generateString() {
     this.css = "";
-    this.map = new mozilla.SourceMapGenerator({ file: this.outputFile() });
+    this.map = new SourceMapGenerator({ file: this.outputFile() });
 
     let line = 1;
     let column = 1;
@@ -283,7 +284,7 @@ class MapGenerator {
   generate() {
     this.clearAnnotation();
 
-    if (pathAvailable && this.isMap()) {
+    if (pathAvailable && sourceMapAvailable && this.isMap()) {
       return this.generateMap();
     }
 
