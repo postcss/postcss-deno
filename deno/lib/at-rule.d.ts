@@ -37,8 +37,11 @@ interface AtRuleRaws {
 }
 
 export interface AtRuleProps extends ContainerProps {
+  /** Name of the at-rule. */
   name: string;
+  /** Parameters following the name of the at-rule. */
   params?: string | number;
+  /** Information used to generate byte-to-byte equal node string as it was in the origin input. */
   raws?: AtRuleRaws;
 }
 
@@ -69,6 +72,7 @@ export interface AtRuleProps extends ContainerProps {
  */
 export default class AtRule extends Container {
   type: "atrule";
+  parent: Container | undefined;
   raws: AtRuleRaws;
 
   /**
@@ -95,6 +99,7 @@ export default class AtRule extends Container {
   params: string;
 
   constructor(defaults?: AtRuleProps);
+  assign(overrides: object | AtRuleProps): this;
   clone(overrides?: Partial<AtRuleProps>): this;
   cloneBefore(overrides?: Partial<AtRuleProps>): this;
   cloneAfter(overrides?: Partial<AtRuleProps>): this;

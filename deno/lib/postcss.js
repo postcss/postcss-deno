@@ -7,6 +7,7 @@ import Container from "./container.js";
 import Processor from "./processor.js";
 import stringify from "./stringify.js";
 import fromJSON from "./fromJSON.js";
+import Document from "./document.js";
 import Warning from "./warning.js";
 import Comment from "./comment.js";
 import AtRule from "./at-rule.js";
@@ -32,7 +33,7 @@ postcss.plugin = function plugin(name, initializer) {
         ": postcss.plugin was deprecated. Migration guide:\n" +
         "https://evilmartians.com/chronicles/postcss-8-plugin-migration",
     );
-    if (Deno.env.LANG && Deno.env.LANG.startsWith("cn")) {
+    if (Deno.env.get("LANG") && Deno.env.get("LANG").startsWith("cn")) {
       // istanbul ignore next
       console.warn(
         name +
@@ -73,10 +74,12 @@ postcss.atRule = (defaults) => new AtRule(defaults);
 postcss.decl = (defaults) => new Declaration(defaults);
 postcss.rule = (defaults) => new Rule(defaults);
 postcss.root = (defaults) => new Root(defaults);
+postcss.document = (defaults) => new Document(defaults);
 
 postcss.CssSyntaxError = CssSyntaxError;
 postcss.Declaration = Declaration;
 postcss.Container = Container;
+postcss.Document = Document;
 postcss.Comment = Comment;
 postcss.Warning = Warning;
 postcss.AtRule = AtRule;

@@ -18,7 +18,8 @@ export {
   sep,
 } from "https://deno.land/std@0.97.0/node/path.ts";
 
-export { default as Buffer } from "https://deno.land/std@0.97.0/node/buffer.ts";
+// 0.77.0 needed because Buffer.from was removed in 0.78.0
+export { default as Buffer } from "https://deno.land/std@0.77.0/node/buffer.ts";
 
 export { nanoid } from "https://deno.land/x/nanoid@v3.0.0/nanoid.ts";
 

@@ -1,3 +1,4 @@
+import Container from "./container.js";
 import Node from "./node.js";
 
 interface DeclarationRaws {
@@ -27,8 +28,13 @@ interface DeclarationRaws {
 }
 
 export interface DeclarationProps {
+  /** Name of the declaration. */
   prop: string;
+  /** Value of the declaration. */
   value: string;
+  /** Whether the declaration has an `!important` annotation. */
+  important?: boolean;
+  /** Information used to generate byte-to-byte equal node string as it was in the origin input. */
   raws?: DeclarationRaws;
 }
 
@@ -51,6 +57,7 @@ export interface DeclarationProps {
  */
 export default class Declaration extends Node {
   type: "decl";
+  parent: Container | undefined;
   raws: DeclarationRaws;
 
   /**
@@ -110,6 +117,7 @@ export default class Declaration extends Node {
   variable: boolean;
 
   constructor(defaults?: DeclarationProps);
+  assign(overrides: object | DeclarationProps): this;
   clone(overrides?: Partial<DeclarationProps>): this;
   cloneBefore(overrides?: Partial<DeclarationProps>): this;
   cloneAfter(overrides?: Partial<DeclarationProps>): this;

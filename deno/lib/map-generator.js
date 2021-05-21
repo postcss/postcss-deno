@@ -1,7 +1,7 @@
 import { Buffer } from "./deps.js";
+import { SourceMapConsumer, SourceMapGenerator } from "./source_map.ts";
 import { dirname, relative, resolve, sep } from "./deps.js";
 import { pathToFileURL } from "./deps.js";
-import { SourceMapConsumer, SourceMapGenerator } from "./source_map.ts";
 
 let sourceMapAvailable = Boolean(SourceMapConsumer && SourceMapGenerator);
 let pathAvailable = Boolean(dirname && resolve && relative && sep);

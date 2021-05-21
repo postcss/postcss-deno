@@ -1,12 +1,29 @@
 import Container, { ContainerProps } from "./container.js";
+import Document from "./document.js";
 import { ProcessOptions } from "./postcss.js";
 import Result from "./result.js";
 
-interface RootRaws {
+interface RootRaws extends Record<string, any> {
   /**
    * The space symbols after the last child to the end of file.
    */
   after?: string;
+
+  /**
+   * Non-CSS code before `Root`, when `Root` is inside `Document`.
+   *
+   * **Experimental:** some aspects of this node could change within minor
+   * or patch version releases.
+   */
+  codeBefore?: string;
+
+  /**
+   * Non-CSS code after `Root`, when `Root` is inside `Document`.
+   *
+   * **Experimental:** some aspects of this node could change within minor
+   * or patch version releases.
+   */
+  codeAfter?: string;
 
   /**
    * Is the last child has an (optional) semicolon.
@@ -15,6 +32,10 @@ interface RootRaws {
 }
 
 export interface RootProps extends ContainerProps {
+  /**
+   * Information used to generate byte-to-byte equal node string
+   * as it was in the origin input.
+   * */
   raws?: RootRaws;
 }
 
@@ -29,10 +50,8 @@ export interface RootProps extends ContainerProps {
  */
 export default class Root extends Container {
   type: "root";
-  parent: undefined;
+  parent: Document | undefined;
   raws: RootRaws;
-
-  constructor(defaults?: RootProps);
 
   /**
    * Returns a `Result` instance representing the root’s CSS.
@@ -48,4 +67,7 @@ export default class Root extends Container {
    * @return Result with current root’s CSS.
    */
   toResult(options?: ProcessOptions): Result;
+
+  constructor(defaults?: RootProps);
+  assign(overrides: object | RootProps): this;
 }

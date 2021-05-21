@@ -185,7 +185,7 @@ export default class CssSyntaxError {
    * @param color Whether arrow will be colored red by terminal
    *              color codes. By default, PostCSS will detect
    *              color support by `process.stdout.isTTY`
-   *              and `Deno.env.NODE_DISABLE_COLORS`.
+   *              and `Deno.env.get("NODE_DISABLE_COLORS")`.
    * @return Few lines of CSS source that caused the error.
    */
   showSourceCode(color?: boolean): string;

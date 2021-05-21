@@ -1,3 +1,4 @@
+import Container from "./container.js";
 import Node, { NodeProps } from "./node.js";
 
 interface CommentRaws {
@@ -18,7 +19,9 @@ interface CommentRaws {
 }
 
 export interface CommentProps extends NodeProps {
+  /** Content of the comment. */
   text: string;
+  /** Information used to generate byte-to-byte equal node string as it was in the origin input. */
   raws?: CommentRaws;
 }
 
@@ -37,6 +40,7 @@ export interface CommentProps extends NodeProps {
  */
 export default class Comment extends Node {
   type: "comment";
+  parent: Container | undefined;
   raws: CommentRaws;
 
   /**
@@ -45,6 +49,7 @@ export default class Comment extends Node {
   text: string;
 
   constructor(defaults?: CommentProps);
+  assign(overrides: object | CommentProps): this;
   clone(overrides?: Partial<CommentProps>): this;
   cloneBefore(overrides?: Partial<CommentProps>): this;
   cloneAfter(overrides?: Partial<CommentProps>): this;

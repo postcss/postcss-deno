@@ -84,6 +84,13 @@ class Node {
     return result;
   }
 
+  assign(overrides = {}) {
+    for (let name in overrides) {
+      this[name] = overrides[name];
+    }
+    return this;
+  }
+
   clone(overrides = {}) {
     let cloned = cloneNode(this);
     for (let name in overrides) {
@@ -151,7 +158,9 @@ class Node {
 
   root() {
     let result = this;
-    while (result.parent) result = result.parent;
+    while (result.parent && result.parent.type !== "document") {
+      result = result.parent;
+    }
     return result;
   }
 

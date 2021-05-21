@@ -35,6 +35,10 @@ class Stringifier {
     this[node.type](node, semicolon);
   }
 
+  document(node) {
+    this.body(node);
+  }
+
   root(node) {
     this.body(node);
     if (node.raws.after) this.builder(node.raws.after);
@@ -127,9 +131,14 @@ class Stringifier {
 
     let parent = node.parent;
 
-    // Hack for first rule in CSS
     if (detect === "before") {
+      // Hack for first rule in CSS
       if (!parent || (parent.type === "root" && parent.first === node)) {
+        return "";
+      }
+
+      // `root` nodes in `document` should use only their own raws
+      if (parent && parent.type === "document") {
         return "";
       }
     }

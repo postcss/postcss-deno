@@ -2,10 +2,11 @@
 
 import LazyResult from "./lazy-result.js";
 import Root from "./root.js";
+import Document from "./document.js";
 
 class Processor {
   constructor(plugins = []) {
-    this.version = "8.2.15";
+    this.version = "8.3.0";
     this.plugins = this.normalize(plugins);
   }
 
@@ -20,7 +21,7 @@ class Processor {
       opts.parser === opts.stringifier &&
       !opts.hideNothingWarning
     ) {
-      if (Deno.env.DENO_ENV !== "production") {
+      if (Deno.env.get("NODE_ENV") !== "production") {
         if (typeof console !== "undefined" && console.warn) {
           console.warn(
             "You did not set any plugins, parser, or stringifier. " +
@@ -49,7 +50,7 @@ class Processor {
       } else if (typeof i === "function") {
         normalized.push(i);
       } else if (typeof i === "object" && (i.parse || i.stringify)) {
-        if (Deno.env.DENO_ENV !== "production") {
+        if (Deno.env.get("NODE_ENV") !== "production") {
           throw new Error(
             "PostCSS syntaxes cannot be used as plugins. Instead, please use " +
               "one of the syntax/parser/stringifier options as outlined " +
@@ -69,3 +70,4 @@ export default Processor;
 Processor.default = Processor;
 
 Root.registerProcessor(Processor);
+Document.registerProcessor(Processor);

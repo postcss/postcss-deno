@@ -5,14 +5,15 @@ import AtRule, { AtRuleProps } from "./at-rule.js";
 import Rule, { RuleProps } from "./rule.js";
 import { WarningOptions } from "./warning.js";
 import CssSyntaxError from "./css-syntax-error.js";
-import Container from "./container.js";
 import Result from "./result.js";
 import Input from "./input.js";
 import Root from "./root.js";
+import Document from "./document.js";
+import Container from "./container.js";
 
 export type ChildNode = AtRule | Rule | Declaration | Comment;
 
-export type AnyNode = AtRule | Rule | Declaration | Comment | Root;
+export type AnyNode = AtRule | Rule | Declaration | Comment | Root | Document;
 
 export type ChildProps =
   | AtRuleProps
@@ -97,7 +98,7 @@ export default abstract class Node {
    * root.nodes[0].parent === root
    * ```
    */
-  parent: Container | undefined;
+  parent: Document | Container | undefined;
 
   /**
    * The input source of the node.
@@ -250,6 +251,18 @@ export default abstract class Node {
    * @return CSS string of this node.
    */
   toString(stringifier?: Stringifier | Syntax): string;
+
+  /**
+   * Assigns properties to the current node.
+   *
+   * ```js
+   * decl.assign({ prop: 'word-wrap', value: 'break-word' })
+   * ```
+   *
+   * @param overrides New properties to override the node.
+   * @return Current node to methods chain.
+   */
+  assign(overrides: object): this;
 
   /**
    * Returns an exact clone of the node.

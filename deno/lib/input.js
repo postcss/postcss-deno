@@ -1,8 +1,8 @@
 /// <reference types="./input.d.ts" />
 
+import { SourceMapConsumer, SourceMapGenerator } from "./source_map.ts";
 import { fileURLToPath, pathToFileURL } from "./deps.js";
 import { isAbsolute, resolve } from "./deps.js";
-import { SourceMapConsumer, SourceMapGenerator } from "./source_map.ts";
 import { nanoid } from "./deps.js";
 import terminalHighlight from "./terminal-highlight.js";
 import CssSyntaxError from "./css-syntax-error.js";
