@@ -1,12 +1,12 @@
 export {
   fileURLToPath,
   pathToFileURL,
-} from "https://deno.land/std@0.97.0/node/url.ts";
+} from "https://deno.land/std@0.98.0/node/url.ts";
 
 export {
   existsSync,
   readFileSync,
-} from "https://deno.land/std@0.97.0/node/fs.ts";
+} from "https://deno.land/std@0.98.0/node/fs.ts";
 
 export {
   basename,
@@ -16,11 +16,9 @@ export {
   relative,
   resolve,
   sep,
-} from "https://deno.land/std@0.97.0/node/path.ts";
+} from "https://deno.land/std@0.98.0/node/path.ts";
 
-// 0.77.0 needed because Buffer.from was removed in 0.78.0
-export { default as Buffer } from "https://deno.land/std@0.77.0/node/buffer.ts";
-
+export { Buffer } from "https://deno.land/std@0.98.0/node/buffer.ts";
 export { nanoid } from "https://deno.land/x/nanoid@v3.0.0/nanoid.ts";
 
 export {
@@ -31,4 +29,4 @@ export {
   magenta,
   red,
   yellow,
-} from "https://deno.land/std@0.97.0/fmt/colors.ts";
+} from "https://deno.land/std@0.98.0/fmt/colors.ts";
