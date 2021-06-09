@@ -6,7 +6,7 @@ import Document from "./document.js";
 
 class Processor {
   constructor(plugins = []) {
-    this.version = "8.3.0";
+    this.version = "8.3.1";
     this.plugins = this.normalize(plugins);
   }
 
@@ -18,7 +18,9 @@ class Processor {
   process(css, opts = {}) {
     if (
       this.plugins.length === 0 &&
-      opts.parser === opts.stringifier &&
+      typeof opts.parser === "undefined" &&
+      typeof opts.stringifier === "undefined" &&
+      typeof opts.syntax === "undefined" &&
       !opts.hideNothingWarning
     ) {
       if (Deno.env.get("DENO_ENV") !== "production") {

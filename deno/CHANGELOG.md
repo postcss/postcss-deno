@@ -2,6 +2,10 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 8.3.1
+
+- Fixed false positives `PostCSS does nothing` warning on `syntax` option.
+
 ## 8.3 “Duke Murmur”
 
 - Added `Node#assign()` shortcut (by Jonathan Neal).
