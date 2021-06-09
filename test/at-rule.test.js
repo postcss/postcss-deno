@@ -2,7 +2,7 @@ import { assert, assertEquals } from "./deps.js";
 import { AtRule, parse } from "../mod.js";
 
 Deno.test("initializes with properties", () => {
-  let rule = new AtRule({ name: "encoding", params: '"utf-8"' });
+  const rule = new AtRule({ name: "encoding", params: '"utf-8"' });
 
   assertEquals(rule.name, "encoding");
   assertEquals(rule.params, '"utf-8"');
@@ -10,12 +10,12 @@ Deno.test("initializes with properties", () => {
 });
 
 Deno.test("does not fall on childless at-rule", () => {
-  let rule = new AtRule();
+  const rule = new AtRule();
   assert(typeof rule.each((i) => i) === "undefined");
 });
 
 Deno.test("creates nodes property on prepend()", () => {
-  let rule = new AtRule();
+  const rule = new AtRule();
   assert(typeof rule.nodes === "undefined");
 
   rule.prepend("color: black");
@@ -23,7 +23,7 @@ Deno.test("creates nodes property on prepend()", () => {
 });
 
 Deno.test("creates nodes property on append()", () => {
-  let rule = new AtRule();
+  const rule = new AtRule();
   assert(typeof rule.nodes === "undefined");
 
   rule.append("color: black");
@@ -31,13 +31,13 @@ Deno.test("creates nodes property on append()", () => {
 });
 
 Deno.test("inserts default spaces", () => {
-  let rule = new AtRule({ name: "page", params: 1, nodes: [] });
+  const rule = new AtRule({ name: "page", params: 1, nodes: [] });
   assertEquals(rule.toString(), "@page 1 {}");
 });
 
 Deno.test("clone spaces from another at-rule", () => {
-  let root = parse("@page{}a{}");
-  let rule = new AtRule({ name: "page", params: 1, nodes: [] });
+  const root = parse("@page{}a{}");
+  const rule = new AtRule({ name: "page", params: 1, nodes: [] });
   root.append(rule);
 
   assertEquals(rule.toString(), "@page 1{}");

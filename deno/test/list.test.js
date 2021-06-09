@@ -18,7 +18,7 @@ Deno.test("space() checks functions", () => {
 });
 
 Deno.test("space() works from variable", () => {
-  let space = list.space;
+  const space = list.space;
   assertEquals(space("a b"), ["a", "b"]);
 });
 
@@ -39,6 +39,6 @@ Deno.test("comma() checks functions", () => {
 });
 
 Deno.test("comma() works from variable", () => {
-  let comma = list.comma;
+  const comma = list.comma;
   assertEquals(comma("a, b"), ["a", "b"]);
 });
