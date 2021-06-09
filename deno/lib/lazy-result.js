@@ -188,7 +188,7 @@ class LazyResult {
   }
 
   then(onFulfilled, onRejected) {
-    if (Deno.env.get("NODE_ENV") !== "production") {
+    if (Deno.env.get("DENO_ENV") !== "production") {
       if (!("from" in this.opts)) {
         warnOnce(
           "Without `from` option PostCSS could generate wrong source map " +
@@ -350,7 +350,7 @@ class LazyResult {
         error.plugin = plugin.postcssPlugin;
         error.setMessage();
       } else if (plugin.postcssVersion) {
-        if (Deno.env.get("NODE_ENV") !== "production") {
+        if (Deno.env.get("DENO_ENV") !== "production") {
           let pluginName = plugin.postcssPlugin;
           let pluginVer = plugin.postcssVersion;
           let runtimeVer = this.result.processor.version;
