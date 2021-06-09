@@ -1,6 +1,6 @@
 import { convert } from "https://deno.land/x/nodedeno@v0.2.8/mod.js";
 
-//Convert the code
+// Convert the code
 await convert({
   src: "postcss",
   input: ["lib"],
@@ -19,22 +19,22 @@ await convert({
     "postcss/CHANGELOG.md": "CHANGELOG.md",
     "postcss/LICENSE": "LICENSE",
   },
-  beforeConvert(src, { replaceAll, rename }) {
-    //Remove colorette dependency
+  beforeConvert(_src, { replaceAll, rename }) {
+    // Remove colorette dependency
     replaceAll((code) =>
       code.replace(", options: colorette", "")
         .replace("if (color == null) color = colorette.enabled", "")
         .replace(", options as colorette", "")
     );
 
-    //Rename lib/postcss.mjs => mod.js
+    // Rename lib/postcss.mjs => mod.js
     rename(
       "lib/postcss.mjs",
       "mod.js",
       (code) => code.replace(`'./postcss.js'`, `"./lib/postcss.js"`),
     );
   },
-  afterConvert(src, { replaceAll }) {
+  afterConvert(_src, { replaceAll }) {
     replaceAll((code) =>
       code.replaceAll("Deno.env.NODE_ENV", "Deno.env.DENO_ENV")
     );

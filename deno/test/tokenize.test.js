@@ -3,8 +3,8 @@ import tokenizer from "../lib/tokenize.js";
 import { Input } from "../mod.js";
 
 function tokenize(css, opts) {
-  let processor = tokenizer(new Input(css), opts);
-  let tokens = [];
+  const processor = tokenizer(new Input(css), opts);
+  const tokens = [];
   while (!processor.endOfFile()) {
     tokens.push(processor.nextToken());
   }
@@ -192,7 +192,7 @@ Deno.test("supports carriage return", () => {
 });
 
 Deno.test("tokenizes CSS", () => {
-  let css = "a {\n" +
+  const css = "a {\n" +
     '  content: "a";\n' +
     "  width: calc(1px;)\n" +
     "  }\n" +
@@ -290,17 +290,17 @@ Deno.test("tokenizes hexadecimal escape", () => {
 
 Deno.test("ignore unclosed per token request", () => {
   function tokn(css, opts) {
-    let processor = tokenizer(new Input(css), opts);
-    let tokens = [];
+    const processor = tokenizer(new Input(css), opts);
+    const tokens = [];
     while (!processor.endOfFile()) {
       tokens.push(processor.nextToken({ ignoreUnclosed: true }));
     }
     return tokens;
   }
 
-  let css = "How's it going (";
-  let tokens = tokn(css, {});
-  let expected = [
+  const css = "How's it going (";
+  const tokens = tokn(css, {});
+  const expected = [
     ["word", "How", 0, 2],
     ["string", "'s", 3, 4],
     ["space", " "],
@@ -315,8 +315,8 @@ Deno.test("ignore unclosed per token request", () => {
 });
 
 Deno.test("provides correct position", () => {
-  let css = "Three tokens";
-  let processor = tokenizer(new Input(css));
+  const css = "Three tokens";
+  const processor = tokenizer(new Input(css));
   assertEquals(processor.position(), 0);
   processor.nextToken();
   assertEquals(processor.position(), 5);
