@@ -6,7 +6,7 @@ import Document from "./document.js";
 
 class Processor {
   constructor(plugins = []) {
-    this.version = "8.3.1";
+    this.version = "8.3.2";
     this.plugins = this.normalize(plugins);
   }
 

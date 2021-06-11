@@ -2,6 +2,10 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 8.3.2
+
+- Update changelog.
+
 ## 8.3.1
 
 - Fixed false positives `PostCSS does nothing` warning on `syntax` option.
@@ -220,6 +224,26 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Removed Babel from the project’s release process.
 - Removed docs from npm package.
 - Replaced `chalk` to `colorette`.
+
+## 7.0.36
+
+- Backport ReDoS vulnerabilities from PostCSS 8.
+
+## 7.0.35
+
+- Add migration guide link to PostCSS 8 error text.
+
+## 7.0.34
+
+- Fix compatibility with `postcss-scss` 2.
+
+## 7.0.33
+
+- Add error message for PostCSS 8 plugins.
+
+## 7.0.36
+
+- Backport ReDoS vulnerabilities from PostCSS 8.
 
 ## 7.0.35
 
