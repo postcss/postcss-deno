@@ -2,9 +2,9 @@ import { Buffer } from "./deps.js";
 
 /// <reference types="./previous-map.d.ts" />
 
+import { SourceMapConsumer, SourceMapGenerator } from "./source_map.ts";
 import { existsSync, readFileSync } from "./deps.js";
 import { dirname, join } from "./deps.js";
-import { SourceMapConsumer, SourceMapGenerator } from "./source_map.ts";
 
 function fromBase64(str) {
   if (Buffer) {

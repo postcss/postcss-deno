@@ -1,13 +1,14 @@
 /// <reference types="./lazy-result.d.ts" />
 
+import { isClean, my } from "./symbols.js";
 import MapGenerator from "./map-generator.js";
-import { isClean } from "./symbols.js";
 import stringify from "./stringify.js";
+import Container from "./container.js";
+import Document from "./document.js";
 import warnOnce from "./warn-once.js";
 import Result from "./result.js";
 import parse from "./parse.js";
 import Root from "./root.js";
-import Document from "./document.js";
 
 const TYPE_TO_CLASS_NAME = {
   document: "Document",
@@ -134,6 +135,8 @@ class LazyResult {
         this.processed = true;
         this.error = error;
       }
+
+      if (root && !root[my]) Container.rebuild(root);
     }
 
     this.result = new Result(processor, root, opts);

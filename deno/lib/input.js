@@ -8,7 +8,7 @@ import terminalHighlight from "./terminal-highlight.js";
 import CssSyntaxError from "./css-syntax-error.js";
 import PreviousMap from "./previous-map.js";
 
-let fromOffsetCache = Symbol("fromOffset cache");
+let fromOffsetCache = Symbol("fromOffsetCache");
 
 let sourceMapAvailable = Boolean(SourceMapConsumer && SourceMapGenerator);
 let pathAvailable = Boolean(resolve && isAbsolute);

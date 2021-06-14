@@ -1,12 +1,12 @@
 /// <reference types="./processor.d.ts" />
 
 import LazyResult from "./lazy-result.js";
-import Root from "./root.js";
 import Document from "./document.js";
+import Root from "./root.js";
 
 class Processor {
   constructor(plugins = []) {
-    this.version = "8.3.2";
+    this.version = "8.3.3";
     this.plugins = this.normalize(plugins);
   }
 

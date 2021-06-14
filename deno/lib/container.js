@@ -1,7 +1,7 @@
 /// <reference types="./container.d.ts" />
 
+import { isClean, my } from "./symbols.js";
 import Declaration from "./declaration.js";
-import { isClean } from "./symbols.js";
 import Comment from "./comment.js";
 import Node from "./node.js";
 
@@ -21,25 +21,6 @@ function markDirtyUp(node) {
     for (let i of node.proxyOf.nodes) {
       markDirtyUp(i);
     }
-  }
-}
-
-// istanbul ignore next
-function rebuild(node) {
-  if (node.type === "atrule") {
-    Object.setPrototypeOf(node, AtRule.prototype);
-  } else if (node.type === "rule") {
-    Object.setPrototypeOf(node, Rule.prototype);
-  } else if (node.type === "decl") {
-    Object.setPrototypeOf(node, Declaration.prototype);
-  } else if (node.type === "comment") {
-    Object.setPrototypeOf(node, Comment.prototype);
-  }
-
-  if (node.nodes) {
-    node.nodes.forEach((child) => {
-      rebuild(child);
-    });
   }
 }
 
@@ -336,7 +317,7 @@ class Container extends Node {
 
     let processed = nodes.map((i) => {
       // istanbul ignore next
-      if (typeof i.markDirty !== "function") rebuild(i);
+      if (!i[my]) Container.rebuild(i);
       i = i.proxyOf;
       if (i.parent) i.parent.removeChild(i);
       if (i[isClean]) markDirtyUp(i);
@@ -429,3 +410,22 @@ Container.registerAtRule = (dependant) => {
 export default Container;
 
 Container.default = Container;
+
+// istanbul ignore next
+Container.rebuild = (node) => {
+  if (node.type === "atrule") {
+    Object.setPrototypeOf(node, AtRule.prototype);
+  } else if (node.type === "rule") {
+    Object.setPrototypeOf(node, Rule.prototype);
+  } else if (node.type === "decl") {
+    Object.setPrototypeOf(node, Declaration.prototype);
+  } else if (node.type === "comment") {
+    Object.setPrototypeOf(node, Comment.prototype);
+  }
+
+  if (node.nodes) {
+    node.nodes.forEach((child) => {
+      Container.rebuild(child);
+    });
+  }
+};
