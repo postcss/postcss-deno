@@ -1,8 +1,8 @@
 /// <reference types="./node.d.ts" />
 
+import { isClean, my } from "./symbols.js";
 import CssSyntaxError from "./css-syntax-error.js";
 import Stringifier from "./stringifier.js";
-import { isClean } from "./symbols.js";
 import stringify from "./stringify.js";
 
 function cloneNode(obj, parent) {
@@ -36,6 +36,7 @@ class Node {
   constructor(defaults = {}) {
     this.raws = {};
     this[isClean] = false;
+    this[my] = true;
 
     for (let name in defaults) {
       if (name === "nodes") {
