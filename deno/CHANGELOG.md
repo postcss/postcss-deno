@@ -2,9 +2,24 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 8.3.9
+
+- Replaced `nanocolors` to `picocolors`.
+- Reduced package size.
+
+## 8.3.8
+
+- Update `nanocolors`.
+
+## 8.3.7
+
+- Replaced `colorette` to `nanocolors`.
+- Added bug field to `package.json` (by Christian Oliff).
+- Improved docs (by Andrew Bruce and Paul Shryock).
+
 ## 8.3.6
 
-- Fixed column of `missed semicolon` error (by @Gusted).
+- Fixed column in `missed semicolon` error (by @Gusted).
 
 ## 8.3.5
 
@@ -240,6 +255,14 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 - Removed Babel from the project’s release process.
 - Removed docs from npm package.
 - Replaced `chalk` to `colorette`.
+
+## 7.0.38
+
+- Update `Processor#version`.
+
+## 7.0.37
+
+- Backport `chalk` to `nanocolors` migration.
 
 ## 7.0.36
 

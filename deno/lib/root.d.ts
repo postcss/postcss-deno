@@ -35,7 +35,7 @@ export interface RootProps extends ContainerProps {
   /**
    * Information used to generate byte-to-byte equal node string
    * as it was in the origin input.
-   * */
+   */
   raws?: RootRaws;
 }
 

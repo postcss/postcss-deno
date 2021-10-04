@@ -1,4 +1,4 @@
-import { cyan, gray, green, magenta, yellow } from "./deps.js";
+import { pico } from "./deps.js";
 import tokenizer from "./tokenize.js";
 
 let Input;
@@ -8,21 +8,21 @@ function registerInput(dependant) {
 }
 
 const HIGHLIGHT_THEME = {
-  "brackets": cyan,
-  "at-word": cyan,
-  "comment": gray,
-  "string": green,
-  "class": yellow,
-  "hash": magenta,
-  "call": cyan,
-  "(": cyan,
-  ")": cyan,
-  "{": yellow,
-  "}": yellow,
-  "[": yellow,
-  "]": yellow,
-  ":": yellow,
-  ";": yellow,
+  "brackets": pico.cyan,
+  "at-word": pico.cyan,
+  "comment": pico.gray,
+  "string": pico.green,
+  "class": pico.yellow,
+  "hash": pico.magenta,
+  "call": pico.cyan,
+  "(": pico.cyan,
+  ")": pico.cyan,
+  "{": pico.yellow,
+  "}": pico.yellow,
+  "[": pico.yellow,
+  "]": pico.yellow,
+  ":": pico.yellow,
+  ";": pico.yellow,
 };
 
 function getTokenType([type, value], processor) {

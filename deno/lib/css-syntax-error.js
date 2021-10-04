@@ -1,6 +1,6 @@
 /// <reference types="./css-syntax-error.d.ts" />
 
-import { bold, gray, red } from "./deps.js";
+import { pico } from "./deps.js";
 import terminalHighlight from "./terminal-highlight.js";
 
 class CssSyntaxError extends Error {
@@ -43,7 +43,7 @@ class CssSyntaxError extends Error {
     if (!this.source) return "";
 
     let css = this.source;
-
+    if (color == null) color = pico.isColorSupported;
     if (terminalHighlight) {
       if (color) css = terminalHighlight(css);
     }
@@ -56,6 +56,7 @@ class CssSyntaxError extends Error {
 
     let mark, aside;
     if (color) {
+      let { bold, red, gray } = pico.createColors(true);
       mark = (text) => bold(red(text));
       aside = (text) => gray(text);
     } else {
