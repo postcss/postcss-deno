@@ -20,13 +20,6 @@ await convert({
     "postcss/LICENSE": "LICENSE",
   },
   beforeConvert(_src, { replaceAll, rename }) {
-    // Remove colorette dependency
-    replaceAll((code) =>
-      code.replace(", options: colorette", "")
-        .replace("if (color == null) color = colorette.enabled", "")
-        .replace(", options as colorette", "")
-    );
-
     // Rename lib/postcss.mjs => mod.js
     rename(
       "lib/postcss.mjs",
