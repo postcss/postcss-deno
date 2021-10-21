@@ -50,7 +50,6 @@ class PreviousMap {
   }
 
   getAnnotationURL(sourceMapString) {
-    console.log(sourceMapString);
     return sourceMapString.replace(/^\/\*\s*# sourceMappingURL=/, "").trim();
   }
 
