@@ -464,10 +464,9 @@ module.exports = {
 
 ### VS Code
 
-- [`csstools.postcss`] adds support for PostCSS, `postcss-preset-env` and CSS
-  Modules.
+- [`mhmadhamster.postcss-language`] adds PostCSS and SugarSS support.
 
-[`csstools.postcss`]: https://marketplace.visualstudio.com/items?itemName=csstools.postcss
+[`mhmadhamster.postcss-language`]: https://marketplace.visualstudio.com/items?itemName=mhmadhamster.postcss-language
 
 ### Atom
 

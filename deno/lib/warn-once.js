@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 let printed = {};
 
 export default function warnOnce(message) {

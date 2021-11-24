@@ -7,11 +7,12 @@ let sourceMapAvailable = Boolean(SourceMapConsumer && SourceMapGenerator);
 let pathAvailable = Boolean(dirname && resolve && relative && sep);
 
 class MapGenerator {
-  constructor(stringify, root, opts) {
+  constructor(stringify, root, opts, cssString) {
     this.stringify = stringify;
     this.mapOpts = opts.map || {};
     this.root = root;
     this.opts = opts;
+    this.css = cssString;
   }
 
   isMap() {
@@ -66,12 +67,16 @@ class MapGenerator {
   clearAnnotation() {
     if (this.mapOpts.annotation === false) return;
 
-    let node;
-    for (let i = this.root.nodes.length - 1; i >= 0; i--) {
-      node = this.root.nodes[i];
-      if (node.type !== "comment") continue;
-      if (node.text.indexOf("# sourceMappingURL=") === 0) {
-        this.root.removeChild(i);
+    if (!this.root && typeof this.css === "string") {
+      this.css = this.css.replace(/(\n)?\/\*#[\S\s]*?\*\/$/gm, "");
+    } else {
+      let node;
+      for (let i = this.root.nodes.length - 1; i >= 0; i--) {
+        node = this.root.nodes[i];
+        if (node.type !== "comment") continue;
+        if (node.text.indexOf("# sourceMappingURL=") === 0) {
+          this.root.removeChild(i);
+        }
       }
     }
   }
@@ -128,7 +133,7 @@ class MapGenerator {
     if (Buffer) {
       return Buffer.from(str).toString("base64");
     } else {
-      // istanbul ignore next
+      /* c8 ignore next 2 */
       return window.btoa(unescape(encodeURIComponent(str)));
     }
   }
@@ -146,7 +151,7 @@ class MapGenerator {
     } else {
       content = this.outputFile() + ".map";
     }
-
+    /* c8 ignore next 6 */
     let eol = "\n";
     if (this.css.includes("\r\n")) eol = "\r\n";
 
@@ -175,6 +180,32 @@ class MapGenerator {
     return [this.css, this.map];
   }
 
+  generateSimpleMap() {
+    this.map = new SourceMapGenerator({ file: this.outputFile() });
+    this.previousMaps = [];
+
+    let source;
+    if (this.opts.from) {
+      source = this.toUrl(this.opts.from);
+    } else {
+      source = "<no source>";
+    }
+
+    this.map.addMapping({
+      source,
+      generated: { line: 1, column: 0 },
+      original: { line: 1, column: 0 },
+    });
+
+    if (this.isAnnotation()) this.addAnnotation();
+
+    if (this.isInline()) {
+      return [this.css];
+    }
+
+    return [this.cssString, this.map];
+  }
+
   path(file) {
     if (file.indexOf("<") === 0) return file;
     if (/^\w+:\/\//.test(file)) return file;
@@ -192,7 +223,7 @@ class MapGenerator {
 
   toUrl(path) {
     if (sep === "\\") {
-      // istanbul ignore next
+      /* c8 ignore next 2 */
       path = path.replace(/\\/g, "/");
     }
     return encodeURI(path).replace(/[#?]/g, encodeURIComponent);
@@ -205,7 +236,7 @@ class MapGenerator {
       if (pathToFileURL) {
         return pathToFileURL(node.source.input.from).toString();
       } else {
-        // istanbul ignore next
+        /* c8 ignore next 4 */
         throw new Error(
           "`map.absolute` option is not available in this PostCSS build",
         );
@@ -235,6 +266,7 @@ class MapGenerator {
 
       if (node && type !== "end") {
         mapping.generated.line = line;
+        /* c8 ignore next */
         mapping.generated.column = column - 1;
         if (node.source && node.source.start) {
           mapping.source = this.sourcePath(node);
@@ -242,6 +274,7 @@ class MapGenerator {
           mapping.original.column = node.source.start.column - 1;
           this.map.addMapping(mapping);
         } else {
+          /* c8 ignore next 8 */
           mapping.source = noSource;
           mapping.original.line = 1;
           mapping.original.column = 0;
@@ -283,6 +316,10 @@ class MapGenerator {
 
   generate() {
     this.clearAnnotation();
+
+    if (pathAvailable && sourceMapAvailable && this.isMap() && !this.root) {
+      return this.generateSimpleMap();
+    }
 
     if (pathAvailable && sourceMapAvailable && this.isMap()) {
       return this.generateMap();

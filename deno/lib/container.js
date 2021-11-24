@@ -316,7 +316,7 @@ class Container extends Node {
     }
 
     let processed = nodes.map((i) => {
-      // istanbul ignore next
+      /* c8 ignore next */
       if (!i[my]) Container.rebuild(i);
       i = i.proxyOf;
       if (i.parent) i.parent.removeChild(i);
@@ -411,7 +411,7 @@ export default Container;
 
 Container.default = Container;
 
-// istanbul ignore next
+/* c8 ignore start */
 Container.rebuild = (node) => {
   if (node.type === "atrule") {
     Object.setPrototypeOf(node, AtRule.prototype);
@@ -431,3 +431,4 @@ Container.rebuild = (node) => {
     });
   }
 };
+/* c8 ignore stop */

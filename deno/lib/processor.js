@@ -3,10 +3,11 @@
 import LazyResult from "./lazy-result.js";
 import Document from "./document.js";
 import Root from "./root.js";
+import NoWorkResult from "./no-work-result.js";
 
 class Processor {
   constructor(plugins = []) {
-    this.version = "8.3.11";
+    this.version = "8.4.0";
     this.plugins = this.normalize(plugins);
   }
 
@@ -20,20 +21,12 @@ class Processor {
       this.plugins.length === 0 &&
       typeof opts.parser === "undefined" &&
       typeof opts.stringifier === "undefined" &&
-      typeof opts.syntax === "undefined" &&
-      !opts.hideNothingWarning
+      typeof opts.syntax === "undefined"
     ) {
-      if (Deno.env.get("DENO_ENV") !== "production") {
-        if (typeof console !== "undefined" && console.warn) {
-          console.warn(
-            "You did not set any plugins, parser, or stringifier. " +
-              "Right now, PostCSS does nothing. Pick plugins for your case " +
-              "on https://www.postcss.parts/ and use them in postcss.config.js.",
-          );
-        }
-      }
+      return new NoWorkResult(this, css, opts);
+    } else {
+      return new LazyResult(this, css, opts);
     }
-    return new LazyResult(this, css, opts);
   }
 
   normalize(plugins) {

@@ -1,3 +1,5 @@
+/// <reference types="./stringifier.d.ts" />
+
 const DEFAULT_RAW = {
   colon: ": ",
   indent: "    ",
@@ -23,7 +25,7 @@ class Stringifier {
   }
 
   stringify(node, semicolon) {
-    /* istanbul ignore if */
+    /* c8 ignore start */
     if (!this[node.type]) {
       throw new Error(
         "Unknown AST node type " +
@@ -32,6 +34,7 @@ class Stringifier {
           "Maybe you need to change PostCSS stringifier.",
       );
     }
+    /* c8 ignore stop */
     this[node.type](node, semicolon);
   }
 
@@ -347,3 +350,5 @@ class Stringifier {
 }
 
 export default Stringifier;
+
+Stringifier.default = Stringifier;
