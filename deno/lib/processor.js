@@ -7,7 +7,7 @@ import NoWorkResult from "./no-work-result.js";
 
 class Processor {
   constructor(plugins = []) {
-    this.version = "8.4.0";
+    this.version = "8.4.1";
     this.plugins = this.normalize(plugins);
   }
 
