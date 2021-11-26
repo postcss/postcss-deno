@@ -2,6 +2,7 @@ import { Buffer } from "./deps.js";
 import { SourceMapConsumer, SourceMapGenerator } from "./source_map.ts";
 import { dirname, relative, resolve, sep } from "./deps.js";
 import { pathToFileURL } from "./deps.js";
+import Input from "./input.js";
 
 let sourceMapAvailable = Boolean(SourceMapConsumer && SourceMapGenerator);
 let pathAvailable = Boolean(dirname && resolve && relative && sep);
@@ -25,14 +26,19 @@ class MapGenerator {
   previous() {
     if (!this.previousMaps) {
       this.previousMaps = [];
-      this.root.walk((node) => {
-        if (node.source && node.source.input.map) {
-          let map = node.source.input.map;
-          if (!this.previousMaps.includes(map)) {
-            this.previousMaps.push(map);
+      if (this.root) {
+        this.root.walk((node) => {
+          if (node.source && node.source.input.map) {
+            let map = node.source.input.map;
+            if (!this.previousMaps.includes(map)) {
+              this.previousMaps.push(map);
+            }
           }
-        }
-      });
+        });
+      } else {
+        let input = new Input(this.css, this.opts);
+        if (input.map) this.previousMaps.push(input.map);
+      }
     }
 
     return this.previousMaps;
@@ -67,9 +73,7 @@ class MapGenerator {
   clearAnnotation() {
     if (this.mapOpts.annotation === false) return;
 
-    if (!this.root && typeof this.css === "string") {
-      this.css = this.css.replace(/(\n)?\/\*#[\S\s]*?\*\/$/gm, "");
-    } else {
+    if (this.root) {
       let node;
       for (let i = this.root.nodes.length - 1; i >= 0; i--) {
         node = this.root.nodes[i];
@@ -78,23 +82,32 @@ class MapGenerator {
           this.root.removeChild(i);
         }
       }
+    } else {
+      this.css = this.css.replace(/(\n)?\/\*#[\S\s]*?\*\/$/gm, "");
     }
   }
 
   setSourcesContent() {
     let already = {};
-    this.root.walk((node) => {
-      if (node.source) {
-        let from = node.source.input.from;
-        if (from && !already[from]) {
-          already[from] = true;
-          this.map.setSourceContent(
-            this.toUrl(this.path(from)),
-            node.source.input.css,
-          );
+    if (this.root) {
+      this.root.walk((node) => {
+        if (node.source) {
+          let from = node.source.input.from;
+          if (from && !already[from]) {
+            already[from] = true;
+            this.map.setSourceContent(
+              this.toUrl(this.path(from)),
+              node.source.input.css,
+            );
+          }
         }
-      }
-    });
+      });
+    } else {
+      let from = this.opts.from
+        ? this.toUrl(this.path(this.opts.from))
+        : "<no source>";
+      this.map.setSourceContent(from, this.css);
+    }
   }
 
   applyPrevMaps() {
@@ -133,7 +146,6 @@ class MapGenerator {
     if (Buffer) {
       return Buffer.from(str).toString("base64");
     } else {
-      /* c8 ignore next 2 */
       return window.btoa(unescape(encodeURIComponent(str)));
     }
   }
@@ -151,7 +163,6 @@ class MapGenerator {
     } else {
       content = this.outputFile() + ".map";
     }
-    /* c8 ignore next 6 */
     let eol = "\n";
     if (this.css.includes("\r\n")) eol = "\r\n";
 
@@ -161,49 +172,38 @@ class MapGenerator {
   outputFile() {
     if (this.opts.to) {
       return this.path(this.opts.to);
-    }
-    if (this.opts.from) {
+    } else if (this.opts.from) {
       return this.path(this.opts.from);
+    } else {
+      return "to.css";
     }
-    return "to.css";
   }
 
   generateMap() {
-    this.generateString();
-    if (this.isSourcesContent()) this.setSourcesContent();
-    if (this.previous().length > 0) this.applyPrevMaps();
-    if (this.isAnnotation()) this.addAnnotation();
-
-    if (this.isInline()) {
-      return [this.css];
-    }
-    return [this.css, this.map];
-  }
-
-  generateSimpleMap() {
-    this.map = new SourceMapGenerator({ file: this.outputFile() });
-    this.previousMaps = [];
-
-    let source;
-    if (this.opts.from) {
-      source = this.toUrl(this.opts.from);
+    if (this.root) {
+      this.generateString();
+    } else if (this.previous().length === 1) {
+      let prev = this.previous()[0].consumer();
+      prev.file = this.outputFile();
+      this.map = SourceMapGenerator.fromSourceMap(prev);
     } else {
-      source = "<no source>";
+      this.map = new SourceMapGenerator({ file: this.outputFile() });
+      this.map.addMapping({
+        source: this.opts.from ? this.toUrl(this.opts.from) : "<no source>",
+        generated: { line: 1, column: 0 },
+        original: { line: 1, column: 0 },
+      });
     }
 
-    this.map.addMapping({
-      source,
-      generated: { line: 1, column: 0 },
-      original: { line: 1, column: 0 },
-    });
-
+    if (this.isSourcesContent()) this.setSourcesContent();
+    if (this.root && this.previous().length > 0) this.applyPrevMaps();
     if (this.isAnnotation()) this.addAnnotation();
 
     if (this.isInline()) {
       return [this.css];
+    } else {
+      return [this.css, this.map];
     }
-
-    return [this.cssString, this.map];
   }
 
   path(file) {
@@ -223,7 +223,6 @@ class MapGenerator {
 
   toUrl(path) {
     if (sep === "\\") {
-      /* c8 ignore next 2 */
       path = path.replace(/\\/g, "/");
     }
     return encodeURI(path).replace(/[#?]/g, encodeURIComponent);
@@ -236,7 +235,6 @@ class MapGenerator {
       if (pathToFileURL) {
         return pathToFileURL(node.source.input.from).toString();
       } else {
-        /* c8 ignore next 4 */
         throw new Error(
           "`map.absolute` option is not available in this PostCSS build",
         );
@@ -266,7 +264,6 @@ class MapGenerator {
 
       if (node && type !== "end") {
         mapping.generated.line = line;
-        /* c8 ignore next */
         mapping.generated.column = column - 1;
         if (node.source && node.source.start) {
           mapping.source = this.sourcePath(node);
@@ -274,7 +271,6 @@ class MapGenerator {
           mapping.original.column = node.source.start.column - 1;
           this.map.addMapping(mapping);
         } else {
-          /* c8 ignore next 8 */
           mapping.source = noSource;
           mapping.original.line = 1;
           mapping.original.column = 0;
@@ -316,20 +312,15 @@ class MapGenerator {
 
   generate() {
     this.clearAnnotation();
-
-    if (pathAvailable && sourceMapAvailable && this.isMap() && !this.root) {
-      return this.generateSimpleMap();
-    }
-
     if (pathAvailable && sourceMapAvailable && this.isMap()) {
       return this.generateMap();
+    } else {
+      let result = "";
+      this.stringify(this.root, (i) => {
+        result += i;
+      });
+      return [result];
     }
-
-    let result = "";
-    this.stringify(this.root, (i) => {
-      result += i;
-    });
-    return [result];
   }
 }
 

@@ -1,13 +1,13 @@
 /// <reference types="./processor.d.ts" />
 
+import NoWorkResult from "./no-work-result.js";
 import LazyResult from "./lazy-result.js";
 import Document from "./document.js";
 import Root from "./root.js";
-import NoWorkResult from "./no-work-result.js";
 
 class Processor {
   constructor(plugins = []) {
-    this.version = "8.4.1";
+    this.version = "8.4.2";
     this.plugins = this.normalize(plugins);
   }
 
