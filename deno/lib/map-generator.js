@@ -82,7 +82,7 @@ class MapGenerator {
           this.root.removeChild(i);
         }
       }
-    } else {
+    } else if (this.css) {
       this.css = this.css.replace(/(\n)?\/\*#[\S\s]*?\*\/$/gm, "");
     }
   }
@@ -102,7 +102,7 @@ class MapGenerator {
           }
         }
       });
-    } else {
+    } else if (this.css) {
       let from = this.opts.from
         ? this.toUrl(this.path(this.opts.from))
         : "<no source>";
@@ -189,7 +189,9 @@ class MapGenerator {
     } else {
       this.map = new SourceMapGenerator({ file: this.outputFile() });
       this.map.addMapping({
-        source: this.opts.from ? this.toUrl(this.opts.from) : "<no source>",
+        source: this.opts.from
+          ? this.toUrl(this.path(this.opts.from))
+          : "<no source>",
         generated: { line: 1, column: 0 },
         original: { line: 1, column: 0 },
       });

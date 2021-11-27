@@ -8,6 +8,7 @@ import Result from "./result.js";
 
 class NoWorkResult {
   constructor(processor, css, opts) {
+    css = css.toString();
     this.stringified = false;
 
     this._processor = processor;

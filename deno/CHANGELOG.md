@@ -2,6 +2,14 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 8.4.4
+
+- Fixed absolute path in source map on zero plugins mode.
+
+## 8.4.3
+
+- Fixed `this.css.replace is not a function` error.
+
 ## 8.4.2
 
 - Fixed previous source map support in zero plugins mode.
