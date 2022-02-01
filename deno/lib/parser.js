@@ -137,10 +137,12 @@ class Parser {
     if (brackets.length > 0) this.unclosedBracket(bracket);
 
     if (end && colon) {
-      while (tokens.length) {
-        token = tokens[tokens.length - 1][0];
-        if (token !== "space" && token !== "comment") break;
-        this.tokenizer.back(tokens.pop());
+      if (!customProperty) {
+        while (tokens.length) {
+          token = tokens[tokens.length - 1][0];
+          if (token !== "space" && token !== "comment") break;
+          this.tokenizer.back(tokens.pop());
+        }
       }
       this.decl(tokens, customProperty);
     } else {
@@ -206,7 +208,15 @@ class Parser {
       node.raws.before += node.prop[0];
       node.prop = node.prop.slice(1);
     }
-    let firstSpaces = this.spacesAndCommentsFromStart(tokens);
+
+    let firstSpaces = [];
+    let next;
+    while (tokens.length) {
+      next = tokens[0][0];
+      if (next !== "space" && next !== "comment") break;
+      firstSpaces.push(tokens.shift());
+    }
+
     this.precheckMissedSemicolon(tokens);
 
     for (let i = tokens.length - 1; i >= 0; i--) {
@@ -240,12 +250,12 @@ class Parser {
     }
 
     let hasWord = tokens.some((i) => i[0] !== "space" && i[0] !== "comment");
-    this.raw(node, "value", tokens);
+
     if (hasWord) {
-      node.raws.between += firstSpaces;
-    } else {
-      node.value = firstSpaces + node.value;
+      node.raws.between += firstSpaces.map((i) => i[1]).join("");
+      firstSpaces = [];
     }
+    this.raw(node, "value", firstSpaces.concat(tokens), customProperty);
 
     if (node.value.includes(":") && !customProperty) {
       this.checkMissedSemicolon(tokens);
@@ -393,38 +403,26 @@ class Parser {
     if (node.type !== "comment") this.semicolon = false;
   }
 
-  raw(node, prop, tokens) {
+  raw(node, prop, tokens, customProperty) {
     let token, type;
     let length = tokens.length;
     let value = "";
     let clean = true;
     let next, prev;
-    let pattern = /^([#.|])?(\w)+/i;
 
     for (let i = 0; i < length; i += 1) {
       token = tokens[i];
       type = token[0];
-
-      if (type === "comment" && node.type === "rule") {
+      if (type === "space" && i === length - 1 && !customProperty) {
+        clean = false;
+      } else if (type === "comment") {
         prev = tokens[i - 1];
         next = tokens[i + 1];
-
-        if (
-          prev[0] !== "space" &&
-          next[0] !== "space" &&
-          pattern.test(prev[1]) &&
-          pattern.test(next[1])
-        ) {
+        if (prev && next && prev[0] !== "space" && next[0] !== "space") {
           value += token[1];
         } else {
           clean = false;
         }
-
-        continue;
-      }
-
-      if (type === "comment" || (type === "space" && i === length - 1)) {
-        clean = false;
       } else {
         value += token[1];
       }

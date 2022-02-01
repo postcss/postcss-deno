@@ -8,17 +8,17 @@
 [chat]: https://gitter.im/postcss/postcss
 
 PostCSS is a tool for transforming styles with JS plugins. These plugins can
-lint your CSS, support variables and mixins, transpile future CSS syntax, inline
-images, and more.
+lint your CSS, support variables and mixins, transpile future CSS syntax,
+inline images, and more.
 
 PostCSS is used by industry leaders including Wikipedia, Twitter, Alibaba, and
-JetBrains. The[Autoprefixer]PostCSS plugin is one of the most popular CSS
+JetBrains. The [Autoprefixer] PostCSS plugin is one of the most popular CSS
 processors.
 
-PostCSS takes a CSS file and provides an API to analyze and modify its rules (by
-transforming them into an[Abstract Syntax Tree]). This API can then be used by
-[plugins] to do a lot of useful things, e.g., to find errors automatically, or
-to insert vendor prefixes.
+PostCSS takes a CSS file and provides an API to analyze and modify its rules
+(by transforming them into an [Abstract Syntax Tree]). This API can then be used
+by [plugins] to do a lot of useful things, e.g., to find errors automatically,
+or to insert vendor prefixes.
 
 **Support / Discussion:** [Gitter](https://gitter.im/postcss/postcss)<br>
 **Twitter account:** [@postcss](https://twitter.com/postcss)<br> **VK.com
@@ -26,7 +26,7 @@ page:** [postcss](https://vk.com/postcss)<br> **中文翻译**:
 [`docs/README-cn.md`](./docs/README-cn.md)
 
 For PostCSS commercial support (consulting, improving the front-end culture of
-your company, PostCSS plugins), contact[Evil Martians] at
+your company, PostCSS plugins), contact [Evil Martians] at
 <postcss@evilmartians.com>.
 
 [Abstract Syntax Tree]: https://en.wikipedia.org/wiki/Abstract_syntax_tree
@@ -54,7 +54,7 @@ PostCSS needs your support. We are accepting donations
 
 ## Plugins
 
-Currently, PostCSS has more than 200 plugins. You can find all of the plugins in
+Currently, PostCSS has more than 200 plugins. You can find all of the plugins in
 the [plugins list] or in the [searchable catalog]. Below is a list of our
 favorite plugins — the best demonstrations of what can be built on top of
 PostCSS.
@@ -148,7 +148,7 @@ If you have any new ideas, [PostCSS plugin development] is really easy.
 ## Syntaxes
 
 PostCSS can transform styles in any syntax, not just CSS. If there is not yet
-support for your favorite syntax, you can write a parser and/or stringifier to
+support for your favorite syntax, you can write a parser and/or stringifier to
 extend PostCSS.
 
 - [`sugarss`] is a indent-based syntax like Sass or Stylus.
@@ -348,7 +348,7 @@ like CodePen), just use [Browserify] or [webpack]. They will pack PostCSS and
 plugins files into a single file.
 
 To apply PostCSS plugins to React Inline Styles, JSS, Radium and other
-[CSS-in-JS], you can use [`postcss-js`] and transforms style objects.
+[CSS-in-JS], you can use [`postcss-js`] and transforms style objects.
 
 ```js
 const postcss = require("postcss-js");
@@ -493,9 +493,10 @@ module.exports = {
 
 ### WebStorm
 
-WebStorm 2016.3 [has] built-in PostCSS support.
+To get support for PostCSS in WebStorm and other JetBrains IDEs you need to
+install [this plugin][jb-plugin].
 
-[has]: https://blog.jetbrains.com/webstorm/2016/08/webstorm-2016-3-early-access-preview/
+[jb-plugin]: https://plugins.jetbrains.com/plugin/8578-postcss
 
 ## Security Contact
 
