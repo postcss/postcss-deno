@@ -5,6 +5,11 @@ import AtRule from "./at-rule.js";
 import Root from "./root.js";
 import Rule from "./rule.js";
 
+const SAFE_COMMENT_NEIGHBOR = {
+  empty: true,
+  space: true,
+};
+
 class Parser {
   constructor(input) {
     this.input = input;
@@ -416,10 +421,14 @@ class Parser {
       if (type === "space" && i === length - 1 && !customProperty) {
         clean = false;
       } else if (type === "comment") {
-        prev = tokens[i - 1];
-        next = tokens[i + 1];
-        if (prev && next && prev[0] !== "space" && next[0] !== "space") {
-          value += token[1];
+        prev = tokens[i - 1] ? tokens[i - 1][0] : "empty";
+        next = tokens[i + 1] ? tokens[i + 1][0] : "empty";
+        if (!SAFE_COMMENT_NEIGHBOR[prev] && !SAFE_COMMENT_NEIGHBOR[next]) {
+          if (value.slice(-1) === ",") {
+            clean = false;
+          } else {
+            value += token[1];
+          }
         } else {
           clean = false;
         }

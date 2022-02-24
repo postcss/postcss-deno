@@ -2,6 +2,11 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 8.4.7
+
+- Fixed `Node#warn()` type (by Masafumi Koba).
+- Fixed comment removal in values after `,`.
+
 ## 8.4.6
 
 - Prevented comment removing when it change meaning of CSS.
