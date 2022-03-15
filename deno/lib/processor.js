@@ -7,7 +7,7 @@ import Root from "./root.js";
 
 class Processor {
   constructor(plugins = []) {
-    this.version = "8.4.8";
+    this.version = "8.4.9";
     this.plugins = this.normalize(plugins);
   }
 
