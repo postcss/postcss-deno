@@ -5,7 +5,7 @@ import Declaration from "./declaration.js";
 import Comment from "./comment.js";
 import Node from "./node.js";
 
-let parse, Rule, AtRule;
+let parse, Rule, AtRule, Root;
 
 function cleanSource(nodes) {
   return nodes.map((i) => {
@@ -407,6 +407,10 @@ Container.registerAtRule = (dependant) => {
   AtRule = dependant;
 };
 
+Container.registerRoot = (dependant) => {
+  Rule = dependant;
+};
+
 export default Container;
 
 Container.default = Container;
@@ -421,6 +425,8 @@ Container.rebuild = (node) => {
     Object.setPrototypeOf(node, Declaration.prototype);
   } else if (node.type === "comment") {
     Object.setPrototypeOf(node, Comment.prototype);
+  } else if (node.type === "root") {
+    Object.setPrototypeOf(node, Root.prototype);
   }
 
   node[my] = true;

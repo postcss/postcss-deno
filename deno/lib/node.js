@@ -320,8 +320,7 @@ class Node {
           prop === "value" ||
           prop === "name" ||
           prop === "params" ||
-          prop === "important" ||
-          /* c8 ignore next */
+          prop === "important" || /* c8 ignore next */
           prop === "text"
         ) {
           node.markDirty();

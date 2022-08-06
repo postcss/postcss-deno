@@ -2,6 +2,14 @@
 
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## 8.4.15
+
+- Fixed AST normalization after using custom parser with old PostCSS AST.
+
+## 8.4.14
+
+- Print “old plugin API” warning only if plugin was used (by @zardoy).
+
 ## 8.4.13
 
 - Fixed `append()` error after using `.parent` (by Jordan Pittman).
